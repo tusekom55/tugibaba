@@ -85,12 +85,21 @@ switch ($action) {
         break;
         
     case 'add':
+        // Debug: POST verilerini logla
+        error_log("POST Data: " . print_r($_POST, true));
+        
         // Yeni coin ekle
         $coin_adi = $_POST['coin_adi'] ?? '';
         $coin_kodu = strtoupper($_POST['coin_kodu'] ?? '');
         $current_price = floatval($_POST['current_price'] ?? 0);
         $aciklama = $_POST['aciklama'] ?? '';
         $kategori_id = $_POST['kategori_id'] ?? null;
+        
+        // Debug: Değişkenleri logla
+        error_log("Coin Adi: " . $coin_adi);
+        error_log("Coin Kodu: " . $coin_kodu);  
+        error_log("Current Price: " . $current_price);
+        error_log("Kategori ID: " . $kategori_id);
         
         // Validation
         if (empty($coin_adi) || empty($coin_kodu)) {
@@ -114,30 +123,42 @@ switch ($action) {
         }
         
         try {
+            // Debug: SQL sorgusunu logla
             $sql = "INSERT INTO coins (coin_adi, coin_kodu, current_price, aciklama, kategori_id, is_active) 
                     VALUES (?, ?, ?, ?, ?, 1)";
+            error_log("SQL Query: " . $sql);
+            error_log("Parameters: " . json_encode([$coin_adi, $coin_kodu, $current_price, $aciklama, $kategori_id]));
+            
             $stmt = $conn->prepare($sql);
             $result = $stmt->execute([$coin_adi, $coin_kodu, $current_price, $aciklama, $kategori_id]);
             
             if ($result) {
                 $coin_id = $conn->lastInsertId();
+                error_log("Coin başarıyla eklendi, ID: " . $coin_id);
                 
-                // Admin log kaydı
-                $log_sql = "INSERT INTO admin_islem_loglari 
-                           (admin_id, islem_tipi, hedef_id, islem_detayi) 
-                           VALUES (?, 'coin_ekleme', ?, ?)";
-                $log_stmt = $conn->prepare($log_sql);
-                $log_stmt->execute([
-                    $_SESSION['user_id'] ?? 1, // Test modunda admin_id = 1
-                    $coin_id, 
-                    "Yeni coin eklendi: {$coin_adi} ({$coin_kodu}) - ₺{$current_price}"
-                ]);
+                // Admin log kaydı (Hata vermemesi için try-catch ekle)
+                try {
+                    $log_sql = "INSERT INTO admin_islem_loglari 
+                               (admin_id, islem_tipi, hedef_id, islem_detayi) 
+                               VALUES (?, 'coin_ekleme', ?, ?)";
+                    $log_stmt = $conn->prepare($log_sql);
+                    $log_stmt->execute([
+                        $_SESSION['user_id'] ?? 1, // Test modunda admin_id = 1
+                        $coin_id, 
+                        "Yeni coin eklendi: {$coin_adi} ({$coin_kodu}) - ₺{$current_price}"
+                    ]);
+                } catch (Exception $log_error) {
+                    error_log("Log kaydı hatası: " . $log_error->getMessage());
+                    // Log hatası coin eklemeyi etkilemesin
+                }
                 
                 echo json_encode(['success' => true, 'message' => 'Coin başarıyla eklendi', 'id' => $coin_id]);
             } else {
-                echo json_encode(['error' => 'Coin eklenemedi']);
+                error_log("Coin insert failed");
+                echo json_encode(['error' => 'Coin eklenemedi - Database insert failed']);
             }
         } catch (Exception $e) {
+            error_log("Coin ekleme hatası: " . $e->getMessage());
             echo json_encode(['error' => 'Veritabanı hatası: ' . $e->getMessage()]);
         }
         break;
