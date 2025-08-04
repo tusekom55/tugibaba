@@ -1,16 +1,33 @@
-import { PrismaClient } from '@prisma/client'
+// Temporarily disabled for deployment without database
+// import { PrismaClient } from '@prisma/client'
 
-declare global {
-  var prisma: PrismaClient | undefined
-}
+// declare global {
+//   var prisma: PrismaClient | undefined
+// }
 
-const prisma = globalThis.prisma || new PrismaClient({
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-})
+// const prisma = globalThis.prisma || new PrismaClient({
+//   log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+// })
 
-if (process.env.NODE_ENV !== 'production') {
-  globalThis.prisma = prisma
-}
+// if (process.env.NODE_ENV !== 'production') {
+//   globalThis.prisma = prisma
+// }
+
+// Mock prisma for deployment without database
+const prisma = {
+  user: {
+    findUnique: () => Promise.resolve(null),
+    findMany: () => Promise.resolve([]),
+    create: () => Promise.resolve({}),
+    update: () => Promise.resolve({}),
+    delete: () => Promise.resolve({}),
+  },
+  coin: {
+    findMany: () => Promise.resolve([]),
+    findUnique: () => Promise.resolve(null),
+  },
+  // Add other models as needed
+} as any;
 
 export default prisma
 

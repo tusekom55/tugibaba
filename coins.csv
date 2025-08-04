@@ -1,0 +1,17 @@
+id,kategori_id,coingecko_id,coin_adi,coin_kodu,logo_url,aciklama,current_price,price_change_24h,market_cap,api_aktif,is_active,sira,created_at,updated_at
+3,1,ripple,XRP,XRP,https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1696501442,,3.12000000,-1.00,184590044041,0,1,3,2025-07-29 17:13:32,2025-07-29 17:13:32
+4,6,tether,Tether,USDT,https://coin-images.coingecko.com/coins/images/325/large/Tether.png?1696501661,,0.99980900,0.00,163627913394,0,1,4,2025-07-29 17:13:32,2025-07-29 17:13:32
+6,1,solana,Solana,SOL,https://coin-images.coingecko.com/coins/images/4128/large/solana.png?1718769756,,180.45000000,-3.00,97016689551,0,1,6,2025-07-29 17:13:32,2025-07-29 17:13:32
+7,6,usd-coin,USDC,USDC,https://coin-images.coingecko.com/coins/images/6319/large/usdc.png?1696506694,,0.99978800,0.00,63943675444,0,1,7,2025-07-29 17:13:32,2025-07-29 17:13:32
+8,2,staked-ether,Lido Staked Ether,STETH,https://coin-images.coingecko.com/coins/images/13442/large/steth_logo.png?1696513206,,3758.01000000,-1.00,33696787326,0,1,8,2025-07-29 17:13:32,2025-07-29 17:13:32
+9,5,dogecoin,Dogecoin,DOGE,https://coin-images.coingecko.com/coins/images/5/large/dogecoin.png?1696501409,,0.22204200,-4.00,33339644080,0,1,9,2025-07-29 17:13:32,2025-07-29 17:13:32
+10,2,tron,TRON,TRX,https://coin-images.coingecko.com/coins/images/1094/large/tron-logo.png?1696502193,,0.33711700,4.00,31954909426,0,1,10,2025-07-29 17:13:32,2025-07-29 17:13:32
+12,2,wrapped-bitcoin,Wrapped Bitcoin,WBTC,https://coin-images.coingecko.com/coins/images/7598/large/wrapped_bitcoin_wbtc.png?1696507857,,117500.00000000,0.00,14893649374,0,1,12,2025-07-29 17:13:32,2025-07-29 17:13:32
+13,2,wrapped-steth,Wrapped stETH,WSTETH,https://coin-images.coingecko.com/coins/images/18834/large/wstETH.png?1696518295,,4518.62000000,-1.00,14766548944,0,1,13,2025-07-29 17:13:32,2025-07-29 17:13:32
+14,2,hyperliquid,Hyperliquid,HYPE,https://coin-images.coingecko.com/coins/images/50882/large/hyperliquid.jpg?1729431300,,43.66000000,-5.00,14561748606,0,1,14,2025-07-29 17:13:32,2025-07-29 17:13:32
+15,2,sui,Sui,SUI,https://coin-images.coingecko.com/coins/images/26375/large/sui-ocean-square.png?1727791290,,3.82000000,-5.00,13197170356,0,1,15,2025-07-29 17:13:32,2025-07-29 17:13:32
+16,2,stellar,Stellar,XLM,https://coin-images.coingecko.com/coins/images/100/large/fmpFRHHQ_400x400.jpg?1735231350,,0.41869100,-1.00,13050824174,0,1,16,2025-07-29 17:13:32,2025-07-29 17:13:32
+17,2,chainlink,Chainlink,LINK,https://coin-images.coingecko.com/coins/images/877/large/chainlink-new-logo.png?1696502009,,17.77000000,-3.00,12045465984,0,1,17,2025-07-29 17:13:32,2025-07-29 17:13:32
+18,2,wrapped-beacon-eth,Wrapped Beacon ETH,WBETH,https://coin-images.coingecko.com/coins/images/30061/large/wbeth-icon.png?1696528983,,4041.42000000,-1.00,11941595115,0,1,18,2025-07-29 17:13:32,2025-07-29 17:13:32
+19,2,bitcoin-cash,Bitcoin Cash,BCH,https://coin-images.coingecko.com/coins/images/780/large/bitcoin-cash-circle.png?1696501932,,566.90000000,-2.00,11280474897,0,1,19,2025-07-29 17:13:32,2025-07-29 17:13:32
+20,2,hedera-hashgraph,Hedera,HBAR,https://coin-images.coingecko.com/coins/images/3688/large/hbar.png?1696504364,,0.26350200,-3.00,11164353936,0,1,20,2025-07-29 17:13:32,2025-07-29 17:13:32

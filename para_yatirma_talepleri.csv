@@ -1,0 +1,7 @@
+id,user_id,yontem,tutar,durum,onay_tarihi,onaylayan_admin_id,tarih,detay_bilgiler,aciklama
+1,1,papara,22.00,onaylandi,2025-07-31 22:21:04,1,2025-07-31 22:20:53,"{""papara_number"":""123123123""}",Admin tarafından onaylandı
+2,1,havale,333.00,onaylandi,2025-07-31 22:23:06,1,2025-07-31 22:23:01,"{""sender_name"":""tugay sec"",""sender_iban"":""tr1321231231231321""}",Admin tarafından onaylandı
+3,1,papara,200.00,onaylandi,2025-07-31 22:32:02,1,2025-07-31 22:31:53,"{""papara_number"":""1231231231231""}",Admin tarafından onaylandı
+4,3,papara,10000.00,onaylandi,2025-07-31 23:04:48,3,2025-07-31 23:04:42,"{""papara_number"":""12313211231212""}",Admin tarafından onaylandı
+5,3,papara,222.00,onaylandi,2025-08-01 04:19:17,6,2025-08-01 00:10:12,"{""papara_number"":""asdasdsad""}",Admin tarafından onaylandı
+6,1,papara,10000.00,onaylandi,2025-08-01 20:51:34,6,2025-08-01 20:50:22,"{""papara_number"":""2828282""}",Admin tarafından onaylandı

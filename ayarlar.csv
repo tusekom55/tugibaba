@@ -1,0 +1,9 @@
+key,value
+api_guncelleme_aktif,false
+api_guncelleme_siklik,300
+leverage_enabled,true
+leverage_fee,0.05
+liquidation_threshold,80.0
+max_leverage,10.0
+min_leverage,1.0
+varsayilan_fiyat_kaynak,manuel

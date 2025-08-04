@@ -1,0 +1,11 @@
+id,username,email,telefon,ad_soyad,tc_no,iban,dogum_tarihi,password,role,is_active,son_giris,ip_adresi,balance,created_at
+1,tttttt,asdasdasdsa@msn.com,,,,"TR63 0006 4000 0019 3001 9751 48",,"$2y$10$o2jol2k0C0sIURlr31P6ZuffXwYuFu5HPqB2RVfzRYcU8HGIKSYE2",user,1,,,4191.88,2025-07-29 16:08:40
+2,tugay60,asdasdasdsa@test.com,,,,"TR63 0006 4000 0019 3001 9751 49",,"$2y$10$2o214a/ZB6L5UgoET6ysSu/b5wauyLtjx.OGMI6lZEV8pE6glDac2",user,1,,,0.00,2025-07-29 16:37:25
+3,t,tusec@test.com,,,,"TR63 0006 4000 0019 3001 9751 50",,123,user,1,2025-08-04 17:43:58,2a02:4780:40:9::2,554.12,2025-07-29 16:42:51
+4,aliUsanmaz,aliusanmaz640@gmail.com,,,,"TR63 0006 4000 0019 3001 9751 51",,123qw123,user,1,,,0.00,2025-07-29 21:04:42
+5,adad,adad@test.com,,,,"TR63 0006 4000 0019 3001 9751 52",,11111111,user,1,,,0.00,2025-07-30 07:21:00
+6,admin,admin@cryptotrading.com,,Sistem Yöneticisi,,"TR63 0006 4000 0019 3001 9751 47",,1,admin,1,2025-08-04 17:42:43,2a02:4780:40:9::2,0.00,2025-07-30 18:50:37
+11,user1,user1@example.com,+905551234568,Ahmet Yılmaz,12345678902,"TR63 0006 4000 0019 3001 9751 44",,"$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi",user,1,,,5000.00,2025-07-30 19:01:11
+12,user2,user2@example.com,+905551234569,Fatma Demir,12345678903,"TR63 0006 4000 0019 3001 9751 45",,"$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi",user,1,,,7500.00,2025-07-30 19:01:11
+13,user3,user3@example.com,+905551234570,Mehmet Kaya,12345678904,"TR63 0006 4000 0019 3001 9751 46",,"$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi",user,1,,,3200.00,2025-07-30 19:01:11
+14,kemta,kemta@test.com,,,,,11111111,user,1,,,0.00,2025-07-31 07:28:28
