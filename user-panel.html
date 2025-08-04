@@ -8581,10 +8581,48 @@
                 }
                 
             } catch (error) {
-                console.error('Portfolio loading error:', error);
-                loader.style.display = 'none';
-                empty.style.display = 'none';
-                table.style.display = 'block';
+                console.error('❌ Portfolio loading error:', error);
+                console.error('Error details:', {
+                    message: error.message,
+                    stack: error.stack,
+                    name: error.name
+                });
+                
+                if (loader) loader.style.display = 'none';
+                
+                // Daha detaylı hata mesajı göster
+                if (empty) {
+                    empty.style.display = 'block';
+                    empty.innerHTML = `
+                        <div style="text-align: center; padding: 40px;">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 48px; color: #ff6b6b; margin-bottom: 16px;"></i>
+                            <h3 style="color: #fff; margin-bottom: 12px;">Portföy Yüklenemedi</h3>
+                            <p style="color: rgba(255,255,255,0.7); margin-bottom: 20px;">Hata: ${error.message}</p>
+                            <button onclick="loadPortfolio()" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">
+                                <i class="fas fa-refresh"></i> Tekrar Dene
+                            </button>
+                        </div>
+                    `;
+                }
+                
+                // Hata durumunda da sıfır değerler göster
+                const totalValue = document.getElementById('portfolioTotalValue');
+                const profitLoss = document.getElementById('portfolioProfitLoss');
+                const profitPercent = document.getElementById('portfolioProfitPercent');
+                const coinCount = document.getElementById('portfolioCoinCount');
+                
+                if (totalValue) totalValue.textContent = '₺0';
+                if (profitLoss) profitLoss.textContent = '₺0';
+                if (profitPercent) profitPercent.textContent = '0%';
+                if (coinCount) coinCount.textContent = '0';
+                
+                if (typeof showNotification === 'function') {
+                    showNotification(`Portföy yüklenemedi: ${error.message}`, 'error');
+                } else {
+                    alert(`Portföy yüklenemedi: ${error.message}`);
+                }
+            }
+        }
                 
                 document.getElementById('portfolioTableBody').innerHTML = `
                     <tr>
