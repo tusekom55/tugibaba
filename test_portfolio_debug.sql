@@ -37,9 +37,9 @@ SELECT
 FROM coin_islemleri ci
 JOIN coins c ON ci.coin_id = c.id
 WHERE ci.user_id = 1 AND c.is_active = 1
-GROUP BY ci.coin_id
-HAVING net_miktar > 0
-ORDER BY (net_miktar * c.current_price) DESC;
+GROUP BY ci.coin_id, c.coin_adi, c.coin_kodu, c.logo_url, c.current_price, c.price_change_24h
+HAVING SUM(CASE WHEN ci.islem = 'al' THEN ci.miktar ELSE -ci.miktar END) > 0
+ORDER BY (SUM(CASE WHEN ci.islem = 'al' THEN ci.miktar ELSE -ci.miktar END) * c.current_price) DESC;
 
 -- 6. Eğer veri yoksa sample data ekle
 INSERT IGNORE INTO coins (id, coin_adi, coin_kodu, current_price, price_change_24h, is_active, logo_url) VALUES 
@@ -72,6 +72,6 @@ SELECT
 FROM coin_islemleri ci
 JOIN coins c ON ci.coin_id = c.id
 WHERE ci.user_id = 1 AND c.is_active = 1
-GROUP BY ci.coin_id
-HAVING net_miktar > 0
-ORDER BY current_value DESC;
+GROUP BY ci.coin_id, c.coin_adi, c.coin_kodu, c.current_price
+HAVING SUM(CASE WHEN ci.islem = 'al' THEN ci.miktar ELSE -ci.miktar END) > 0
+ORDER BY (SUM(CASE WHEN ci.islem = 'al' THEN ci.miktar ELSE -ci.miktar END) * c.current_price) DESC;
