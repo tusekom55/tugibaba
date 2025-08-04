@@ -8534,31 +8534,50 @@
             const table = document.getElementById('portfolioTable');
             
             // Loading state göster
-            loader.style.display = 'block';
-            empty.style.display = 'none';
-            table.style.display = 'none';
+            if (loader) loader.style.display = 'block';
+            if (empty) empty.style.display = 'none';
+            if (table) table.style.display = 'none';
             
             try {
+                console.log('🔄 Starting portfolio load...');
+                
                 const response = await fetch('backend/user/trading.php?action=portfolio', {
                     method: 'GET',
                     credentials: 'include'
                 });
                 
+                console.log('📡 Portfolio response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const result = await response.json();
                 console.log('✅ Portfolio loaded:', result);
                 
-                if (result.success && result.data.portfolio.length > 0) {
-                    displayPortfolio(result.data);
+                if (result.success) {
+                    if (result.data && result.data.portfolio && result.data.portfolio.length > 0) {
+                        console.log('📊 Displaying portfolio with', result.data.portfolio.length, 'items');
+                        displayPortfolio(result.data);
+                    } else {
+                        console.log('📭 Portfolio is empty, showing empty state');
+                        // Portföy boş
+                        if (loader) loader.style.display = 'none';
+                        if (empty) empty.style.display = 'block';
+                        
+                        // Sıfır değerleri göster
+                        const totalValue = document.getElementById('portfolioTotalValue');
+                        const profitLoss = document.getElementById('portfolioProfitLoss');
+                        const profitPercent = document.getElementById('portfolioProfitPercent');
+                        const coinCount = document.getElementById('portfolioCoinCount');
+                        
+                        if (totalValue) totalValue.textContent = '₺0';
+                        if (profitLoss) profitLoss.textContent = '₺0';
+                        if (profitPercent) profitPercent.textContent = '0%';
+                        if (coinCount) coinCount.textContent = '0';
+                    }
                 } else {
-                    // Portföy boş
-                    loader.style.display = 'none';
-                    empty.style.display = 'block';
-                    
-                    // Sıfır değerleri göster
-                    document.getElementById('portfolioTotalValue').textContent = '₺0';
-                    document.getElementById('portfolioProfitLoss').textContent = '₺0';
-                    document.getElementById('portfolioProfitPercent').textContent = '0%';
-                    document.getElementById('portfolioCoinCount').textContent = '0';
+                    throw new Error(result.message || 'Portfolio API returned success: false');
                 }
                 
             } catch (error) {

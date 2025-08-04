@@ -1143,43 +1143,47 @@
                         <i class="fas fa-sliders-h"></i> Pozisyon Müdahale Paneli
                     </h3>
                     
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px;">
                         <div>
-                            <label class="form-label">Hedef Pozisyon:</label>
-                            <select id="targetPosition" class="form-select">
-                                <option value="">Pozisyon Seçin</option>
+                            <label class="form-label">Kullanıcı Seç:</label>
+                            <select id="targetUser" class="form-select">
+                                <option value="">Kullanıcı Seçin</option>
                             </select>
                         </div>
                         <div>
-                            <label class="form-label">Müdahale Tipi:</label>
-                            <select id="interventionType" class="form-select">
-                                <option value="profit_boost">Kar Artırma</option>
-                                <option value="loss_reduce">Zarar Azaltma</option>
-                                <option value="force_close">Zorla Kapatma</option>
-                            </select>
+                            <label class="form-label">Kar Yüzdesi (%):</label>
+                            <input type="number" id="profitPercentage" class="form-input" placeholder="50" min="1" max="500" step="1" value="50">
+                            <small style="color: #666; font-size: 12px;">Kullanıcının mevcut bakiyesine bu yüzde kadar kar eklenecek</small>
                         </div>
-                        <div>
-                            <label class="form-label">Kar Oranı (%):</label>
-                            <input type="number" id="profitMultiplier" class="form-input" placeholder="50" min="0" max="1000" step="1">
-                            <small style="color: #666; font-size: 12px;">Kullanıcının pozisyonu bu oranda karlı görünecek</small>
-                        </div>
-                        <div>
-                            <label class="form-label">Hedef Fiyat (₺):</label>
-                            <input type="number" id="targetPrice" class="form-input" placeholder="50000" min="0" step="0.01">
-                            <small style="color: #666; font-size: 12px;">Pozisyon bu fiyattan kapatılmış gibi görünecek</small>
+                        <div style="display: flex; align-items: end;">
+                            <div style="width: 100%;">
+                                <label class="form-label">Hızlı Seçenekler:</label>
+                                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                    <button type="button" class="btn-secondary" onclick="setQuickProfit(10)">%10</button>
+                                    <button type="button" class="btn-secondary" onclick="setQuickProfit(25)">%25</button>
+                                    <button type="button" class="btn-secondary" onclick="setQuickProfit(50)">%50</button>
+                                    <button type="button" class="btn-secondary" onclick="setQuickProfit(100)">%100</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                        <button type="button" class="btn-primary" onclick="applyPositionIntervention()">
-                            <i class="fas fa-magic"></i> Müdahaleyi Uygula
+                        <button type="button" class="btn-primary" onclick="applySimpleProfit()">
+                            <i class="fas fa-coins"></i> Kar Ver
                         </button>
-                        <button type="button" class="btn-secondary" onclick="previewIntervention()">
-                            <i class="fas fa-eye"></i> Önizleme
+                        <button type="button" class="btn-secondary" onclick="previewProfit()">
+                            <i class="fas fa-eye"></i> Hesapla
                         </button>
-                        <button type="button" class="btn-danger" onclick="closeAllPositions()">
-                            <i class="fas fa-times-circle"></i> Tüm Pozisyonları Kapat
+                        <button type="button" class="btn-warning" onclick="loadUsers()">
+                            <i class="fas fa-refresh"></i> Kullanıcıları Yenile
                         </button>
+                    </div>
+                    
+                    <!-- Kar Hesaplama Önizlemesi -->
+                    <div id="profitPreview" style="display: none; margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #00d4aa;">
+                        <h4 style="color: #00d4aa; margin-bottom: 10px;">💰 Kar Hesaplaması</h4>
+                        <div id="profitDetails"></div>
                     </div>
                 </div>
             </div>
@@ -1325,6 +1329,7 @@
                     break;
                 case 'leverage':
                     loadLeveragePositions();
+                    loadUsers(); // Kullanıcıları da yükle
                     break;
                 case 'settings':
                     loadSettings();
@@ -2365,47 +2370,63 @@
             document.getElementById('totalInvestedAmount').textContent = '₺' + totalInvested.toLocaleString('tr-TR');
         }
         
-        // Populate position dropdown
-        function populatePositionDropdown(positions) {
-            const dropdown = document.getElementById('targetPosition');
-            dropdown.innerHTML = '<option value="">Pozisyon Seçin</option>';
-            
-            positions.forEach(position => {
-                const option = document.createElement('option');
-                option.value = position.id;
-                option.textContent = `${position.username} - ${position.coin_symbol} ${position.position_type.toUpperCase()} ${position.leverage_ratio}x`;
-                dropdown.appendChild(option);
-            });
+        // Kullanıcıları yükle ve dropdown'a ekle
+        async function loadUsers() {
+            try {
+                const response = await fetch('backend/admin/users.php?action=list', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                const dropdown = document.getElementById('targetUser');
+                dropdown.innerHTML = '<option value="">Kullanıcı Seçin</option>';
+                
+                if (data.success && data.data) {
+                    data.data.forEach(user => {
+                        const option = document.createElement('option');
+                        option.value = user.id;
+                        option.textContent = `${user.username} - ₺${parseFloat(user.balance || 0).toLocaleString('tr-TR')}`;
+                        option.dataset.balance = user.balance || 0;
+                        option.dataset.username = user.username;
+                        dropdown.appendChild(option);
+                    });
+                    showNotification('Kullanıcılar yüklendi', 'success');
+                } else {
+                    showNotification('Kullanıcılar yüklenemedi', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading users:', error);
+                showNotification('Kullanıcılar yüklenirken hata oluştu', 'error');
+            }
         }
         
-        // Apply position intervention
-        async function applyPositionIntervention() {
-            const positionId = document.getElementById('targetPosition').value;
-            const interventionType = document.getElementById('interventionType').value;
-            const profitMultiplier = parseFloat(document.getElementById('profitMultiplier').value) || 0;
-            const targetPrice = parseFloat(document.getElementById('targetPrice').value) || 0;
+        // Basit kar verme sistemi
+        async function applySimpleProfit() {
+            const userId = document.getElementById('targetUser').value;
+            const profitPercentage = parseFloat(document.getElementById('profitPercentage').value) || 0;
             
-            if (!positionId) {
-                showNotification('Lütfen bir pozisyon seçin!', 'error');
+            if (!userId) {
+                showNotification('Lütfen bir kullanıcı seçin!', 'error');
                 return;
             }
             
-            if (interventionType === 'profit_boost' && profitMultiplier <= 0) {
-                showNotification('Lütfen geçerli bir kar oranı girin!', 'error');
+            if (profitPercentage <= 0) {
+                showNotification('Kar yüzdesi 0\'dan büyük olmalıdır!', 'error');
                 return;
             }
             
-            if (targetPrice <= 0) {
-                showNotification('Lütfen geçerli bir hedef fiyat girin!', 'error');
+            const selectedOption = document.querySelector(`#targetUser option[value="${userId}"]`);
+            const username = selectedOption ? selectedOption.dataset.username : 'Kullanıcı';
+            
+            if (!confirm(`${username} kullanıcısına %${profitPercentage} kar vermek istediğinizden emin misiniz?`)) {
                 return;
             }
             
             try {
                 const formData = new FormData();
-                formData.append('position_id', positionId);
-                formData.append('intervention_type', interventionType);
-                formData.append('profit_multiplier', profitMultiplier);
-                formData.append('target_price', targetPrice);
+                formData.append('user_id', userId);
+                formData.append('profit_percentage', profitPercentage);
                 
                 const response = await fetch('backend/admin/leverage_control.php?action=intervene', {
                     method: 'POST',
@@ -2416,62 +2437,94 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    showNotification('Pozisyon müdahalesi başarıyla uygulandı!', 'success');
-                    loadLeveragePositions(); // Refresh the list
+                    showNotification(data.message, 'success');
                     
-                    // Clear form
-                    document.getElementById('targetPosition').value = '';
-                    document.getElementById('profitMultiplier').value = '';
-                    document.getElementById('targetPrice').value = '';
+                    // Detayları göster
+                    if (data.details) {
+                        const details = data.details;
+                        showNotification(
+                            `✅ ${details.username}: ₺${details.old_balance.toLocaleString('tr-TR')} → ₺${details.new_balance.toLocaleString('tr-TR')} (+₺${details.profit_amount.toLocaleString('tr-TR')})`,
+                            'success'
+                        );
+                    }
+                    
+                    // Formu temizle
+                    document.getElementById('targetUser').value = '';
+                    document.getElementById('profitPercentage').value = '50';
+                    document.getElementById('profitPreview').style.display = 'none';
+                    
+                    // Kullanıcıları yenile
+                    loadUsers();
+                    
                 } else {
-                    showNotification('Hata: ' + (data.error || data.message || 'Müdahale uygulanamadı'), 'error');
+                    showNotification('Hata: ' + (data.error || data.message || 'Kar verilemedi'), 'error');
                 }
                 
             } catch (error) {
-                console.error('Position intervention error:', error);
-                showNotification('Müdahale uygulanırken hata oluştu: ' + error.message, 'error');
+                console.error('Profit intervention error:', error);
+                showNotification('Kar verilirken hata oluştu: ' + error.message, 'error');
             }
         }
         
-        // Preview intervention
-        function previewIntervention() {
-            const positionId = document.getElementById('targetPosition').value;
-            const interventionType = document.getElementById('interventionType').value;
-            const profitMultiplier = parseFloat(document.getElementById('profitMultiplier').value) || 0;
-            const targetPrice = parseFloat(document.getElementById('targetPrice').value) || 0;
+        // Kar hesaplaması önizleme
+        function previewProfit() {
+            const userId = document.getElementById('targetUser').value;
+            const profitPercentage = parseFloat(document.getElementById('profitPercentage').value) || 0;
             
-            if (!positionId) {
-                showNotification('Lütfen bir pozisyon seçin!', 'error');
+            if (!userId) {
+                showNotification('Lütfen bir kullanıcı seçin!', 'error');
                 return;
             }
             
-            const selectedOption = document.querySelector(`#targetPosition option[value="${positionId}"]`);
-            const positionText = selectedOption ? selectedOption.textContent : 'Seçili Pozisyon';
-            
-            let interventionText = '';
-            switch (interventionType) {
-                case 'profit_boost':
-                    interventionText = `${profitMultiplier}% kar artırma`;
-                    break;
-                case 'loss_reduce':
-                    interventionText = 'Zarar azaltma';
-                    break;
-                case 'force_close':
-                    interventionText = 'Zorla kapatma';
-                    break;
+            if (profitPercentage <= 0) {
+                showNotification('Kar yüzdesi 0\'dan büyük olmalıdır!', 'error');
+                return;
             }
             
-            const message = `
-                Pozisyon: ${positionText}
-                Müdahale: ${interventionText}
-                Hedef Fiyat: ₺${targetPrice.toLocaleString('tr-TR')}
-                
-                Bu müdahaleyi uygulamak istediğinizden emin misiniz?
+            const selectedOption = document.querySelector(`#targetUser option[value="${userId}"]`);
+            const username = selectedOption ? selectedOption.dataset.username : 'Kullanıcı';
+            const currentBalance = parseFloat(selectedOption ? selectedOption.dataset.balance : 0);
+            
+            const profitAmount = currentBalance * (profitPercentage / 100);
+            const newBalance = currentBalance + profitAmount;
+            
+            const previewDiv = document.getElementById('profitPreview');
+            const detailsDiv = document.getElementById('profitDetails');
+            
+            detailsDiv.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div>
+                        <strong>👤 Kullanıcı:</strong><br>
+                        <span style="color: #007bff;">${username}</span>
+                    </div>
+                    <div>
+                        <strong>💰 Mevcut Bakiye:</strong><br>
+                        <span style="color: #6c757d;">₺${currentBalance.toLocaleString('tr-TR', {minimumFractionDigits: 2})}</span>
+                    </div>
+                    <div>
+                        <strong>📈 Kar Miktarı:</strong><br>
+                        <span style="color: #28a745;">₺${profitAmount.toLocaleString('tr-TR', {minimumFractionDigits: 2})}</span>
+                    </div>
+                    <div>
+                        <strong>💎 Yeni Bakiye:</strong><br>
+                        <span style="color: #00d4aa; font-weight: bold;">₺${newBalance.toLocaleString('tr-TR', {minimumFractionDigits: 2})}</span>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 10px; background: rgba(0, 212, 170, 0.1); border-radius: 6px;">
+                    <small style="color: #00d4aa;">
+                        <i class="fas fa-info-circle"></i> 
+                        %${profitPercentage} kar verilerek bakiye ₺${currentBalance.toLocaleString('tr-TR')} → ₺${newBalance.toLocaleString('tr-TR')} olacak
+                    </small>
+                </div>
             `;
             
-            if (confirm(message)) {
-                applyPositionIntervention();
-            }
+            previewDiv.style.display = 'block';
+        }
+        
+        // Hızlı kar yüzdesi seçimi
+        function setQuickProfit(percentage) {
+            document.getElementById('profitPercentage').value = percentage;
+            previewProfit(); // Otomatik hesapla
         }
         
         // Boost profit for specific position

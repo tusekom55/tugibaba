@@ -324,8 +324,12 @@ try {
                     $insert_transaction_stmt = $conn->prepare($insert_transaction_sql);
                     
                     foreach ($sample_transactions as $transaction) {
-                        $insert_transaction_stmt->execute($transaction);
-                        error_log("Sample transaction inserted: " . json_encode($transaction));
+                        try {
+                            $insert_transaction_stmt->execute($transaction);
+                            error_log("Sample transaction inserted: " . json_encode($transaction));
+                        } catch (Exception $insert_error) {
+                            error_log("Error inserting sample transaction: " . $insert_error->getMessage());
+                        }
                     }
                     
                     // Şimdi gerçek portföy verisini tekrar çek
