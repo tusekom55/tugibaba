@@ -220,7 +220,7 @@ export function sortBy<T>(
 ): T[] {
   return [...array].sort((a, b) => {
     const aVal = a[key]
-    const aVal = b[key]
+    const bVal = b[key]
     
     if (aVal < bVal) return direction === 'asc' ? -1 : 1
     if (aVal > bVal) return direction === 'asc' ? 1 : -1
