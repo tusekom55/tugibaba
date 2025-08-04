@@ -1,0 +1,288 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  /* Custom scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-muted/20 rounded-full;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/30 rounded-full hover:bg-muted-foreground/50;
+  }
+  
+  /* Trading specific styles */
+  .trading-up {
+    @apply text-trading-up;
+  }
+  
+  .trading-down {
+    @apply text-trading-down;
+  }
+  
+  .trading-neutral {
+    @apply text-trading-neutral;
+  }
+  
+  /* Glass morphism effect */
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+  
+  .glass-card {
+    @apply glass rounded-xl p-6 shadow-xl;
+  }
+  
+  /* Gradient backgrounds */
+  .gradient-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  }
+  
+  .gradient-trading {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  }
+  
+  .gradient-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  }
+  
+  /* Animation classes */
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out;
+  }
+  
+  .animate-slide-down {
+    animation: slide-down 0.3s ease-out;
+  }
+  
+  .animate-pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+  }
+  
+  /* Chart container */
+  .chart-container {
+    @apply relative w-full h-full bg-card rounded-lg border;
+  }
+  
+  /* Trading buttons */
+  .btn-buy {
+    @apply bg-trading-up hover:bg-trading-up/80 text-white font-semibold py-2 px-4 rounded-lg transition-colors;
+  }
+  
+  .btn-sell {
+    @apply bg-trading-down hover:bg-trading-down/80 text-white font-semibold py-2 px-4 rounded-lg transition-colors;
+  }
+  
+  /* Status indicators */
+  .status-pending {
+    @apply bg-yellow-500/20 text-yellow-400 border border-yellow-500/30;
+  }
+  
+  .status-approved {
+    @apply bg-trading-up/20 text-trading-up border border-trading-up/30;
+  }
+  
+  .status-rejected {
+    @apply bg-trading-down/20 text-trading-down border border-trading-down/30;
+  }
+  
+  /* Form styles */
+  .form-input {
+    @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  
+  .form-label {
+    @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
+  }
+  
+  /* Navigation styles */
+  .nav-link {
+    @apply flex items-center gap-3 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors;
+  }
+  
+  .nav-link.active {
+    @apply text-foreground bg-accent;
+  }
+  
+  /* Card styles */
+  .stats-card {
+    @apply glass-card hover:bg-white/10 transition-all duration-300 cursor-pointer;
+  }
+  
+  .trading-card {
+    @apply bg-card border rounded-lg p-4 hover:shadow-lg transition-shadow;
+  }
+  
+  /* Table styles */
+  .table-header {
+    @apply text-xs font-medium text-muted-foreground uppercase tracking-wide;
+  }
+  
+  .table-cell {
+    @apply py-3 px-4 text-sm;
+  }
+  
+  /* Loading states */
+  .skeleton {
+    @apply animate-pulse bg-muted/20 rounded;
+  }
+  
+  .loading-spinner {
+    @apply animate-spin rounded-full border-2 border-muted border-t-primary;
+  }
+  
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .mobile-hidden {
+      @apply hidden;
+    }
+    
+    .mobile-full {
+      @apply w-full;
+    }
+    
+    .mobile-stack {
+      @apply flex-col space-y-2 space-x-0;
+    }
+  }
+}
+
+/* Keyframe animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Trading chart styles */
+.lightweight-charts {
+  @apply rounded-lg overflow-hidden;
+}
+
+/* Custom toast styles */
+.toast-success {
+  @apply bg-trading-up/90 text-white border-trading-up;
+}
+
+.toast-error {
+  @apply bg-trading-down/90 text-white border-trading-down;
+}
+
+.toast-warning {
+  @apply bg-yellow-500/90 text-white border-yellow-500;
+}
+
+.toast-info {
+  @apply bg-blue-500/90 text-white border-blue-500;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .glass {
+    @apply bg-background border-2;
+  }
+  
+  .trading-up {
+    @apply font-bold;
+  }
+  
+  .trading-down {
+    @apply font-bold;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

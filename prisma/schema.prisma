@@ -1,0 +1,511 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// User Management
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique @db.VarChar(50)
+  email     String   @unique @db.VarChar(100)
+  password  String   @db.VarChar(255)
+  role      Role     @default(USER)
+  balance   Decimal  @default(0) @db.Decimal(16, 2)
+  
+  // Profile Information
+  fullName  String?  @map("ad_soyad") @db.VarChar(100)
+  tcNo      String?  @map("tc_no") @db.VarChar(11)
+  phone     String?  @map("telefon") @db.VarChar(20)
+  iban      String?  @db.VarChar(50)
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  coinTransactions     CoinTransaction[]
+  depositRequests      DepositRequest[]
+  withdrawalRequests   WithdrawalRequest[]
+  leveragePositions    LeveragePosition[]
+  leverageTrades       LeverageTrade[]
+  marginCalls          MarginCall[]
+  transactionHistory   TransactionHistory[]
+  adminLogs            AdminLog[]
+  invoices             Invoice[]
+  tradingSettings      UserTradingSettings?
+  
+  @@map("users")
+}
+
+enum Role {
+  USER  @map("user")
+  ADMIN @map("admin")
+  
+  @@map("role")
+}
+
+// Coin Categories
+model CoinCategory {
+  id          Int    @id @default(autoincrement())
+  name        String @map("kategori_adi") @db.VarChar(100)
+  
+  coins       Coin[]
+  
+  @@map("coin_kategorileri")
+}
+
+// Coins (Hybrid System)
+model Coin {
+  id            Int      @id @default(autoincrement())
+  categoryId    Int?     @map("kategori_id")
+  coingeckoId   String?  @unique @map("coingecko_id") @db.VarChar(100)
+  name          String   @map("coin_adi") @db.VarChar(100)
+  symbol        String   @map("coin_kodu") @db.VarChar(20)
+  logoUrl       String?  @map("logo_url") @db.VarChar(500)
+  description   String?  @map("aciklama") @db.Text
+  currentPrice  Decimal  @default(0) @map("current_price") @db.Decimal(16, 8)
+  priceChange24h Decimal @default(0) @map("price_change_24h") @db.Decimal(5, 2)
+  marketCap     BigInt   @default(0) @map("market_cap")
+  apiActive     Boolean  @default(false) @map("api_aktif")
+  isActive      Boolean  @default(true) @map("is_active")
+  sortOrder     Int      @default(0) @map("sira")
+  
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  category      CoinCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  transactions  CoinTransaction[]
+  priceHistory  CoinPriceHistory[]
+  leveragePositions LeveragePosition[]
+  
+  @@map("coins")
+}
+
+// Coin Transactions (Buy/Sell)
+model CoinTransaction {
+  id        Int              @id @default(autoincrement())
+  userId    Int              @map("user_id")
+  coinId    Int              @map("coin_id")
+  type      TransactionType  @map("islem")
+  amount    Decimal          @map("miktar") @db.Decimal(16, 8)
+  price     Decimal          @map("fiyat") @db.Decimal(16, 2)
+  createdAt DateTime         @default(now()) @map("tarih")
+  
+  // Relations
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  coin      Coin @relation(fields: [coinId], references: [id], onDelete: Cascade)
+  
+  @@map("coin_islemleri")
+}
+
+enum TransactionType {
+  BUY  @map("al")
+  SELL @map("sat")
+  
+  @@map("transaction_type")
+}
+
+// Deposit Requests
+model DepositRequest {
+  id            Int           @id @default(autoincrement())
+  userId        Int           @map("user_id")
+  method        PaymentMethod @map("yontem")
+  amount        Decimal       @map("tutar") @db.Decimal(16, 2)
+  status        RequestStatus @default(PENDING) @map("durum")
+  details       String?       @map("detay_bilgiler") @db.Text
+  description   String?       @map("aciklama") @db.Text
+  createdAt     DateTime      @default(now()) @map("tarih")
+  
+  // Relations
+  user          User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("para_yatirma_talepleri")
+}
+
+// Withdrawal Requests
+model WithdrawalRequest {
+  id            Int           @id @default(autoincrement())
+  userId        Int           @map("user_id")
+  method        PaymentMethod @map("yontem")
+  amount        Decimal       @map("tutar") @db.Decimal(16, 2)
+  status        RequestStatus @default(PENDING) @map("durum")
+  createdAt     DateTime      @default(now()) @map("tarih")
+  approvedAt    DateTime?     @map("onay_tarihi")
+  approvedBy    Int?          @map("onaylayan_admin_id")
+  description   String?       @map("aciklama") @db.Text
+  
+  // Relations
+  user          User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("para_cekme_talepleri")
+}
+
+enum PaymentMethod {
+  CREDIT_CARD @map("kredi_karti")
+  PAPARA      @map("papara")
+  BANK_TRANSFER @map("havale")
+  
+  @@map("payment_method")
+}
+
+enum RequestStatus {
+  PENDING   @map("beklemede")
+  APPROVED  @map("onaylandi")
+  REJECTED  @map("reddedildi")
+  
+  @@map("request_status")
+}
+
+// Forex Pairs
+model ForexPair {
+  id            Int          @id @default(autoincrement())
+  symbol        String       @unique @db.VarChar(10)
+  baseCurrency  String       @map("base_currency") @db.VarChar(3)
+  quoteCurrency String       @map("quote_currency") @db.VarChar(3)
+  displayName   String       @map("display_name") @db.VarChar(20)
+  category      ForexCategory @default(MAJOR)
+  currentPrice  Decimal      @default(0) @map("current_price") @db.Decimal(10, 5)
+  bidPrice      Decimal      @default(0) @map("bid_price") @db.Decimal(10, 5)
+  askPrice      Decimal      @default(0) @map("ask_price") @db.Decimal(10, 5)
+  spread        Decimal      @default(0) @db.Decimal(6, 5)
+  pipValue      Decimal      @default(0.0001) @map("pip_value") @db.Decimal(8, 5)
+  minTradeSize  Decimal      @default(0.01) @map("min_trade_size") @db.Decimal(10, 2)
+  maxLeverage   Int          @default(100) @map("max_leverage")
+  isActive      Boolean      @default(true) @map("is_active")
+  tradingHours  String?      @map("trading_hours") @db.VarChar(100)
+  
+  createdAt     DateTime     @default(now()) @map("created_at")
+  updatedAt     DateTime     @updatedAt @map("updated_at")
+  
+  // Relations
+  leverageTrades LeverageTrade[]
+  priceHistory   ForexPriceHistory[]
+  
+  @@map("forex_pairs")
+}
+
+enum ForexCategory {
+  MAJOR       @map("major")
+  MINOR       @map("minor")
+  EXOTIC      @map("exotic")
+  INDICES     @map("indices")
+  COMMODITIES @map("commodities")
+  
+  @@map("forex_category")
+}
+
+// Leverage Positions (Crypto)
+model LeveragePosition {
+  id              Int      @id @default(autoincrement())
+  userId          Int      @map("user_id")
+  coinSymbol      String   @map("coin_symbol") @db.VarChar(20)
+  positionType    PositionType @map("position_type")
+  leverageRatio   Decimal  @map("leverage_ratio") @db.Decimal(8, 2)
+  entryPrice      Decimal  @map("entry_price") @db.Decimal(16, 8)
+  positionSize    Decimal  @map("position_size") @db.Decimal(16, 8)
+  investedAmount  Decimal  @map("invested_amount") @db.Decimal(16, 2)
+  currentPrice    Decimal  @default(0) @map("current_price") @db.Decimal(16, 8)
+  liquidationPrice Decimal @map("liquidation_price") @db.Decimal(16, 8)
+  unrealizedPnl   Decimal  @default(0) @map("unrealized_pnl") @db.Decimal(16, 2)
+  realizedPnl     Decimal  @default(0) @map("realized_pnl") @db.Decimal(16, 2)
+  closePrice      Decimal? @map("close_price") @db.Decimal(16, 8)
+  status          PositionStatus @default(OPEN)
+  
+  createdAt       DateTime @default(now()) @map("created_at")
+  closedAt        DateTime? @map("closed_at")
+  
+  // Relations
+  user            User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  coin            Coin? @relation(fields: [coinSymbol], references: [symbol])
+  
+  @@map("leverage_positions")
+}
+
+// Leverage Trades (Forex)
+model LeverageTrade {
+  id              Int      @id @default(autoincrement())
+  userId          Int      @map("user_id")
+  pairId          Int      @map("pair_id")
+  tradeType       PositionType @map("trade_type")
+  lotSize         Decimal  @map("lot_size") @db.Decimal(10, 2)
+  leverageRatio   Int      @map("leverage_ratio")
+  entryPrice      Decimal  @map("entry_price") @db.Decimal(10, 5)
+  currentPrice    Decimal  @default(0) @map("current_price") @db.Decimal(10, 5)
+  stopLoss        Decimal? @map("stop_loss") @db.Decimal(10, 5)
+  takeProfit      Decimal? @map("take_profit") @db.Decimal(10, 5)
+  marginRequired  Decimal  @map("margin_required") @db.Decimal(16, 2)
+  marginUsed      Decimal  @map("margin_used") @db.Decimal(16, 2)
+  unrealizedPnl   Decimal  @default(0) @map("unrealized_pnl") @db.Decimal(16, 2)
+  realizedPnl     Decimal  @default(0) @map("realized_pnl") @db.Decimal(16, 2)
+  commission      Decimal  @default(0) @db.Decimal(10, 2)
+  swapFee         Decimal  @default(0) @map("swap_fee") @db.Decimal(10, 2)
+  status          TradeStatus @default(OPEN)
+  closeReason     CloseReason? @map("close_reason")
+  
+  openedAt        DateTime @default(now()) @map("opened_at")
+  closedAt        DateTime? @map("closed_at")
+  
+  // Relations
+  user            User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pair            ForexPair @relation(fields: [pairId], references: [id], onDelete: Cascade)
+  marginCalls     MarginCall[]
+  
+  @@index([userId, status])
+  @@index([pairId, status])
+  @@map("leverage_trades")
+}
+
+enum PositionType {
+  LONG  @map("long")
+  SHORT @map("short")
+  
+  @@map("position_type")
+}
+
+enum PositionStatus {
+  OPEN        @map("open")
+  CLOSED      @map("closed")
+  LIQUIDATED  @map("liquidated")
+  
+  @@map("position_status")
+}
+
+enum TradeStatus {
+  OPEN        @map("open")
+  CLOSED      @map("closed")
+  MARGIN_CALL @map("margin_call")
+  LIQUIDATED  @map("liquidated")
+  
+  @@map("trade_status")
+}
+
+enum CloseReason {
+  MANUAL      @map("manual")
+  STOP_LOSS   @map("stop_loss")
+  TAKE_PROFIT @map("take_profit")
+  MARGIN_CALL @map("margin_call")
+  LIQUIDATION @map("liquidation")
+  
+  @@map("close_reason")
+}
+
+// Margin Calls
+model MarginCall {
+  id              Int      @id @default(autoincrement())
+  userId          Int      @map("user_id")
+  tradeId         Int      @map("trade_id")
+  marginLevel     Decimal  @map("margin_level") @db.Decimal(8, 2)
+  requiredMargin  Decimal  @map("required_margin") @db.Decimal(16, 2)
+  availableMargin Decimal  @map("available_margin") @db.Decimal(16, 2)
+  callType        CallType @map("call_type")
+  message         String?  @db.Text
+  isResolved      Boolean  @default(false) @map("is_resolved")
+  
+  createdAt       DateTime @default(now()) @map("created_at")
+  resolvedAt      DateTime? @map("resolved_at")
+  
+  // Relations
+  user            User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trade           LeverageTrade @relation(fields: [tradeId], references: [id], onDelete: Cascade)
+  
+  @@map("margin_calls")
+}
+
+enum CallType {
+  WARNING     @map("warning")
+  MARGIN_CALL @map("margin_call")
+  LIQUIDATION @map("liquidation")
+  
+  @@map("call_type")
+}
+
+// Price History Tables
+model CoinPriceHistory {
+  id            Int      @id @default(autoincrement())
+  coinId        Int      @map("coin_id")
+  price         Decimal  @db.Decimal(16, 8)
+  priceChange24h Decimal @map("price_change_24h") @db.Decimal(5, 2)
+  marketCap     BigInt   @map("market_cap")
+  recordedAt    DateTime @default(now()) @map("recorded_at")
+  
+  // Relations
+  coin          Coin @relation(fields: [coinId], references: [id], onDelete: Cascade)
+  
+  @@map("coin_price_history")
+}
+
+model ForexPriceHistory {
+  id          Int       @id @default(autoincrement())
+  pairId      Int       @map("pair_id")
+  timeframe   Timeframe
+  openPrice   Decimal   @map("open_price") @db.Decimal(10, 5)
+  highPrice   Decimal   @map("high_price") @db.Decimal(10, 5)
+  lowPrice    Decimal   @map("low_price") @db.Decimal(10, 5)
+  closePrice  Decimal   @map("close_price") @db.Decimal(10, 5)
+  volume      BigInt    @default(0)
+  timestamp   DateTime
+  
+  // Relations
+  pair        ForexPair @relation(fields: [pairId], references: [id], onDelete: Cascade)
+  
+  @@unique([pairId, timeframe, timestamp])
+  @@index([pairId, timeframe, timestamp])
+  @@map("forex_price_history")
+}
+
+enum Timeframe {
+  ONE_MINUTE    @map("1m")
+  FIVE_MINUTES  @map("5m")
+  FIFTEEN_MINUTES @map("15m")
+  THIRTY_MINUTES @map("30m")
+  ONE_HOUR      @map("1h")
+  FOUR_HOURS    @map("4h")
+  ONE_DAY       @map("1d")
+  
+  @@map("timeframe")
+}
+
+// User Trading Settings
+model UserTradingSettings {
+  userId              Int     @id @map("user_id")
+  defaultLeverage     Int     @default(100) @map("default_leverage")
+  defaultLotSize      Decimal @default(0.01) @map("default_lot_size") @db.Decimal(10, 2)
+  autoCloseProfit     Decimal? @map("auto_close_profit") @db.Decimal(8, 2)
+  autoCloseLoss       Decimal? @map("auto_close_loss") @db.Decimal(8, 2)
+  maxOpenPositions    Int     @default(10) @map("max_open_positions")
+  riskPerTrade        Decimal @default(2.0) @map("risk_per_trade") @db.Decimal(8, 2)
+  notificationsEnabled Boolean @default(true) @map("notifications_enabled")
+  
+  // Relations
+  user                User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("user_trading_settings")
+}
+
+// Transaction History
+model TransactionHistory {
+  id              Int      @id @default(autoincrement())
+  userId          Int      @map("user_id")
+  type            HistoryType @map("islem_tipi")
+  details         String   @map("islem_detayi") @db.Text
+  amount          Decimal  @map("tutar") @db.Decimal(16, 2)
+  previousBalance Decimal  @map("onceki_bakiye") @db.Decimal(16, 2)
+  newBalance      Decimal  @map("sonraki_bakiye") @db.Decimal(16, 2)
+  createdAt       DateTime @default(now()) @map("tarih")
+  ipAddress       String?  @map("ip_adresi") @db.VarChar(45)
+  userAgent       String?  @map("user_agent") @db.Text
+  
+  // Relations
+  user            User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("kullanici_islem_gecmisi")
+}
+
+enum HistoryType {
+  DEPOSIT         @map("para_yatirma")
+  WITHDRAWAL      @map("para_cekme")
+  COIN_BUY        @map("coin_al")
+  COIN_SELL       @map("coin_sat")
+  BALANCE_UPDATE  @map("bakiye_guncelleme")
+  
+  @@map("history_type")
+}
+
+// Admin Logs
+model AdminLog {
+  id          Int      @id @default(autoincrement())
+  adminId     Int      @map("admin_id")
+  type        AdminLogType @map("islem_tipi")
+  targetId    Int      @map("hedef_id")
+  details     String   @map("islem_detayi") @db.Text
+  createdAt   DateTime @default(now()) @map("tarih")
+  
+  // Relations
+  admin       User @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  
+  @@map("admin_islem_loglari")
+}
+
+enum AdminLogType {
+  USER_EDIT     @map("kullanici_duzenleme")
+  USER_DELETE   @map("kullanici_silme")
+  APPROVE_MONEY @map("para_onaylama")
+  COIN_ADD      @map("coin_ekleme")
+  COIN_EDIT     @map("coin_duzenleme")
+  COIN_DELETE   @map("coin_silme")
+  SETTING_UPDATE @map("ayar_guncelleme")
+  
+  @@map("admin_log_type")
+}
+
+// Invoices
+model Invoice {
+  id            Int      @id @default(autoincrement())
+  userId        Int      @map("user_id")
+  type          InvoiceType @map("islem_tipi")
+  transactionId Int      @map("islem_id")
+  invoiceNumber String   @unique @map("fatura_no") @db.VarChar(50)
+  amount        Decimal  @map("tutar") @db.Decimal(16, 2)
+  vatRate       Decimal  @default(0) @map("kdv_orani") @db.Decimal(5, 2)
+  vatAmount     Decimal  @default(0) @map("kdv_tutari") @db.Decimal(16, 2)
+  totalAmount   Decimal  @map("toplam_tutar") @db.Decimal(16, 2)
+  createdAt     DateTime @default(now()) @map("tarih")
+  
+  // Relations
+  user          User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("faturalar")
+}
+
+enum InvoiceType {
+  DEPOSIT       @map("para_yatirma")
+  WITHDRAWAL    @map("para_cekme")
+  COIN_TRADE    @map("coin_islem")
+  
+  @@map("invoice_type")
+}
+
+// System Settings
+model SystemSettings {
+  id          Int      @id @default(autoincrement())
+  key         String   @unique @map("ayar_adi") @db.VarChar(100)
+  value       String   @map("ayar_degeri") @db.Text
+  description String?  @map("aciklama") @db.Text
+  updatedAt   DateTime @updatedAt @map("guncelleme_tarihi")
+  
+  @@map("sistem_ayarlari")
+}
+
+// Application Settings (Key-Value)
+model AppSettings {
+  key   String @id @db.VarChar(100)
+  value String @db.Text
+  
+  @@map("ayarlar")
+}
+
+// Logs
+model Log {
+  id        Int      @id @default(autoincrement())
+  userId    Int?     @map("user_id")
+  type      LogType  @map("tip")
+  details   String   @map("detay") @db.Text
+  createdAt DateTime @default(now()) @map("tarih")
+  
+  @@map("loglar")
+}
+
+enum LogType {
+  DEPOSIT       @map("para_yatirma")
+  COIN_TRADE    @map("coin_islem")
+  API_UPDATE    @map("api_guncelleme")
+  
+  @@map("log_type")
+}
