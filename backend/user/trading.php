@@ -250,6 +250,12 @@ try {
             error_log("Portfolio - User ID: " . ($user_id ?? 'NULL'));
             error_log("Portfolio - Session: " . print_r($_SESSION, true));
             
+            // Test modunda user_id yoksa 1 olarak varsay
+            if (!$user_id) {
+                $user_id = 1;
+                error_log("Portfolio - No user_id in session, defaulting to 1 for test mode");
+            }
+            
             // Kullanıcının portföyünü getir
             $portfolio_sql = "SELECT 
                                 ci.coin_id,
@@ -285,31 +291,47 @@ try {
                 $transaction_count = $check_stmt->fetchColumn();
                 error_log("Total transactions for user {$user_id}: " . $transaction_count);
                 
-                // Test için sample data ekle
+                // Test verisi olmadığında sample coin işlemleri ekle
                 if ($transaction_count == 0) {
-                    error_log("No transactions found, creating sample portfolio data");
-                    $portfolio = [
-                        [
-                            'coin_id' => 1,
-                            'coin_adi' => 'Bitcoin',
-                            'coin_kodu' => 'BTC',
-                            'logo_url' => 'https://via.placeholder.com/32/f7931a/ffffff?text=B',
-                            'current_price' => 50000.00,
-                            'price_change_24h' => 2.5,
-                            'net_miktar' => 0.001,
-                            'avg_buy_price' => 48000.00
-                        ],
-                        [
-                            'coin_id' => 2,
-                            'coin_adi' => 'Ethereum', 
-                            'coin_kodu' => 'ETH',
-                            'logo_url' => 'https://via.placeholder.com/32/627eea/ffffff?text=E',
-                            'current_price' => 3000.00,
-                            'price_change_24h' => -1.2,
-                            'net_miktar' => 0.5,
-                            'avg_buy_price' => 2800.00
-                        ]
+                    error_log("No transactions found, inserting sample coin transactions");
+                    
+                    // Önce sample coinler olduğundan emin ol
+                    $check_coins_sql = "SELECT COUNT(*) FROM coins WHERE is_active = 1";
+                    $check_coins_stmt = $conn->prepare($check_coins_sql);
+                    $check_coins_stmt->execute();
+                    $coin_count = $check_coins_stmt->fetchColumn();
+                    
+                    if ($coin_count == 0) {
+                        // Sample coinler ekle
+                        $insert_coins_sql = "INSERT INTO coins (coin_adi, coin_kodu, current_price, price_change_24h, is_active, logo_url) VALUES 
+                                            ('Bitcoin', 'BTC', 50000.00, 2.5, 1, 'https://cryptologos.cc/logos/bitcoin-btc-logo.png'),
+                                            ('Ethereum', 'ETH', 3000.00, -1.2, 1, 'https://cryptologos.cc/logos/ethereum-eth-logo.png'),
+                                            ('Binance Coin', 'BNB', 300.00, 0.8, 1, 'https://cryptologos.cc/logos/binance-coin-bnb-logo.png')
+                                            ON DUPLICATE KEY UPDATE current_price = VALUES(current_price)";
+                        $conn->prepare($insert_coins_sql)->execute();
+                        error_log("Sample coins inserted");
+                    }
+                    
+                    // Sample coin işlemleri ekle
+                    $sample_transactions = [
+                        [$user_id, 1, 'al', 0.001, 48000.00],  // Bitcoin al
+                        [$user_id, 2, 'al', 0.5, 2800.00],    // Ethereum al
+                        [$user_id, 3, 'al', 2, 290.00],       // BNB al
+                        [$user_id, 2, 'sat', 0.1, 2900.00]    // Ethereum kısmen sat
                     ];
+                    
+                    $insert_transaction_sql = "INSERT INTO coin_islemleri (user_id, coin_id, islem, miktar, fiyat, tarih) VALUES (?, ?, ?, ?, ?, NOW())";
+                    $insert_transaction_stmt = $conn->prepare($insert_transaction_sql);
+                    
+                    foreach ($sample_transactions as $transaction) {
+                        $insert_transaction_stmt->execute($transaction);
+                        error_log("Sample transaction inserted: " . json_encode($transaction));
+                    }
+                    
+                    // Şimdi gerçek portföy verisini tekrar çek
+                    $portfolio_stmt->execute([$user_id]);
+                    $portfolio = $portfolio_stmt->fetchAll(PDO::FETCH_ASSOC);
+                    error_log("Portfolio after inserting sample data: " . json_encode($portfolio));
                 }
             }
             

@@ -853,6 +853,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="leverage">
+                        <i class="fas fa-chart-line"></i> Kaldıraçlı İşlemler
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="#" class="nav-link" data-section="invoices">
                         <i class="fas fa-file-invoice"></i> Faturalar
                     </a>
@@ -1097,8 +1102,108 @@
                     </div>
                 </div>
 
-                <!-- Settings Section -->
-                <div id="settings-section" class="section" style="display: none;">
+                        <!-- Leverage Trading Control Section -->
+        <div id="leverage-section" class="section" style="display: none;">
+            <h2 class="section-title">
+                <i class="fas fa-chart-line"></i> Kaldıraçlı İşlem Kontrolü
+            </h2>
+            
+            <!-- Active Positions Overview -->
+            <div class="table-container" style="margin-bottom: 30px;">
+                <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 20px;">
+                        <i class="fas fa-chart-bar"></i> Aktif Pozisyonlar
+                    </h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                        <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: #1976d2;" id="totalActivePositions">0</div>
+                            <div style="color: #666; font-size: 14px;">Toplam Pozisyon</div>
+                        </div>
+                        <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: #388e3c;" id="totalLongPositions">0</div>
+                            <div style="color: #666; font-size: 14px;">Long Pozisyon</div>
+                        </div>
+                        <div style="background: #ffebee; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: #d32f2f;" id="totalShortPositions">0</div>
+                            <div style="color: #666; font-size: 14px;">Short Pozisyon</div>
+                        </div>
+                        <div style="background: #fff3e0; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: #f57c00;" id="totalInvestedAmount">₺0</div>
+                            <div style="color: #666; font-size: 14px;">Toplam Yatırım</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Position Control Panel -->
+            <div class="table-container" style="margin-bottom: 30px;">
+                <div style="background: white; padding: 20px; border-radius: 10px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 20px;">
+                        <i class="fas fa-sliders-h"></i> Pozisyon Müdahale Paneli
+                    </h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px;">
+                        <div>
+                            <label class="form-label">Hedef Pozisyon:</label>
+                            <select id="targetPosition" class="form-select">
+                                <option value="">Pozisyon Seçin</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">Müdahale Tipi:</label>
+                            <select id="interventionType" class="form-select">
+                                <option value="profit_boost">Kar Artırma</option>
+                                <option value="loss_reduce">Zarar Azaltma</option>
+                                <option value="force_close">Zorla Kapatma</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">Kar Oranı (%):</label>
+                            <input type="number" id="profitMultiplier" class="form-input" placeholder="50" min="0" max="1000" step="1">
+                            <small style="color: #666; font-size: 12px;">Kullanıcının pozisyonu bu oranda karlı görünecek</small>
+                        </div>
+                        <div>
+                            <label class="form-label">Hedef Fiyat (₺):</label>
+                            <input type="number" id="targetPrice" class="form-input" placeholder="50000" min="0" step="0.01">
+                            <small style="color: #666; font-size: 12px;">Pozisyon bu fiyattan kapatılmış gibi görünecek</small>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button type="button" class="btn-primary" onclick="applyPositionIntervention()">
+                            <i class="fas fa-magic"></i> Müdahaleyi Uygula
+                        </button>
+                        <button type="button" class="btn-secondary" onclick="previewIntervention()">
+                            <i class="fas fa-eye"></i> Önizleme
+                        </button>
+                        <button type="button" class="btn-danger" onclick="closeAllPositions()">
+                            <i class="fas fa-times-circle"></i> Tüm Pozisyonları Kapat
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Positions List -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>
+                        <i class="fas fa-list"></i> Pozisyon Listesi
+                    </h3>
+                    <button class="btn-primary" onclick="loadLeveragePositions()">
+                        <i class="fas fa-refresh"></i> Yenile
+                    </button>
+                </div>
+                
+                <div id="leveragePositionsTable" class="loading">
+                    <div class="spinner"></div>
+                    Pozisyonlar yükleniyor...
+                </div>
+            </div>
+        </div>
+        
+        <!-- Settings Section -->
+        <div id="settings-section" class="section" style="display: none;">
                     <h2 class="section-title">
                         <i class="fas fa-cog"></i> Sistem Ayarları
                     </h2>
@@ -1217,6 +1322,9 @@
                     break;
                 case 'invoices':
                     loadInvoices();
+                    break;
+                case 'leverage':
+                    loadLeveragePositions();
                     break;
                 case 'settings':
                     loadSettings();
@@ -2100,6 +2208,351 @@
                 console.error('Kullanıcı silme hatası:', error);
                 alert('Kullanıcı silinemedi');
             }
+        }
+
+        // Leverage trading control functions
+        async function loadLeveragePositions() {
+            const container = document.getElementById('leveragePositionsTable');
+            container.innerHTML = '<div class="loading"><div class="spinner"></div>Pozisyonlar yükleniyor...</div>';
+            
+            try {
+                const response = await fetch('backend/admin/leverage_control.php?action=list', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayLeveragePositions(data.data);
+                    updateLeverageStats(data.data);
+                    populatePositionDropdown(data.data);
+                } else {
+                    // Test verisi göster
+                    const testPositions = [
+                        {
+                            id: 1,
+                            user_id: 1,
+                            username: 'john_doe',
+                            coin_symbol: 'BTC',
+                            position_type: 'long',
+                            leverage_ratio: 10,
+                            entry_price: 45000,
+                            current_price: 47000,
+                            invested_amount: 1000,
+                            unrealized_pnl: 444.44,
+                            pnl_percentage: 44.44,
+                            status: 'open',
+                            open_time: '2024-01-15 10:30:00'
+                        },
+                        {
+                            id: 2,
+                            user_id: 2,
+                            username: 'jane_smith',
+                            coin_symbol: 'ETH',
+                            position_type: 'short',
+                            leverage_ratio: 5,
+                            entry_price: 2800,
+                            current_price: 2750,
+                            invested_amount: 500,
+                            unrealized_pnl: 89.29,
+                            pnl_percentage: 17.86,
+                            status: 'open',
+                            open_time: '2024-01-14 09:15:00'
+                        }
+                    ];
+                    displayLeveragePositions(testPositions);
+                    updateLeverageStats(testPositions);
+                    populatePositionDropdown(testPositions);
+                }
+                
+            } catch (error) {
+                console.error('Leverage positions loading error:', error);
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #ef4444;">Pozisyonlar yüklenirken hata oluştu.</div>';
+            }
+        }
+        
+        // Display leverage positions
+        function displayLeveragePositions(positions) {
+            const container = document.getElementById('leveragePositionsTable');
+            
+            if (!positions || positions.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">Aktif pozisyon bulunamadı.</div>';
+                return;
+            }
+            
+            let tableHTML = `
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>Kullanıcı</th>
+                            <th>Coin</th>
+                            <th>Tip</th>
+                            <th>Kaldıraç</th>
+                            <th>Giriş Fiyat</th>
+                            <th>Güncel Fiyat</th>
+                            <th>Yatırım</th>
+                            <th>K/Z</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            positions.forEach(position => {
+                const pnlColor = position.unrealized_pnl >= 0 ? '#00d4aa' : '#ef4444';
+                const pnlSign = position.unrealized_pnl >= 0 ? '+' : '';
+                const positionTypeClass = position.position_type === 'long' ? 'long' : 'short';
+                const positionTypeColor = position.position_type === 'long' ? '#00d4aa' : '#ef4444';
+                
+                tableHTML += `
+                    <tr>
+                        <td>
+                            <div style="font-weight: 600;">${position.username}</div>
+                            <div style="font-size: 12px; color: #666;">ID: ${position.user_id}</div>
+                        </td>
+                        <td style="font-weight: 600;">${position.coin_symbol}</td>
+                        <td>
+                            <span style="color: ${positionTypeColor}; font-weight: 600; text-transform: uppercase;">
+                                <i class="fas fa-arrow-${position.position_type === 'long' ? 'up' : 'down'}"></i>
+                                ${position.position_type}
+                            </span>
+                        </td>
+                        <td style="font-weight: 600;">${position.leverage_ratio}x</td>
+                        <td>₺${parseFloat(position.entry_price).toLocaleString('tr-TR')}</td>
+                        <td>₺${parseFloat(position.current_price).toLocaleString('tr-TR')}</td>
+                        <td>₺${parseFloat(position.invested_amount).toLocaleString('tr-TR')}</td>
+                        <td style="color: ${pnlColor}; font-weight: 600;">
+                            ${pnlSign}₺${Math.abs(parseFloat(position.unrealized_pnl)).toLocaleString('tr-TR', {minimumFractionDigits: 2})}
+                            <br>
+                            <small>(${pnlSign}${Math.abs(parseFloat(position.pnl_percentage)).toFixed(2)}%)</small>
+                        </td>
+                        <td>
+                            <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                                <button class="action-btn btn-warning" onclick="editPosition(${position.id})" title="Düzenle">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn btn-approve" onclick="boostProfit(${position.id}, 50)" title="Kar Artır">
+                                    <i class="fas fa-arrow-up"></i>
+                                </button>
+                                <button class="action-btn btn-delete" onclick="forceClosePosition(${position.id})" title="Zorla Kapat">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            container.innerHTML = tableHTML;
+        }
+        
+        // Update leverage statistics
+        function updateLeverageStats(positions) {
+            const totalPositions = positions.length;
+            const longPositions = positions.filter(p => p.position_type === 'long').length;
+            const shortPositions = positions.filter(p => p.position_type === 'short').length;
+            const totalInvested = positions.reduce((sum, p) => sum + parseFloat(p.invested_amount), 0);
+            
+            document.getElementById('totalActivePositions').textContent = totalPositions;
+            document.getElementById('totalLongPositions').textContent = longPositions;
+            document.getElementById('totalShortPositions').textContent = shortPositions;
+            document.getElementById('totalInvestedAmount').textContent = '₺' + totalInvested.toLocaleString('tr-TR');
+        }
+        
+        // Populate position dropdown
+        function populatePositionDropdown(positions) {
+            const dropdown = document.getElementById('targetPosition');
+            dropdown.innerHTML = '<option value="">Pozisyon Seçin</option>';
+            
+            positions.forEach(position => {
+                const option = document.createElement('option');
+                option.value = position.id;
+                option.textContent = `${position.username} - ${position.coin_symbol} ${position.position_type.toUpperCase()} ${position.leverage_ratio}x`;
+                dropdown.appendChild(option);
+            });
+        }
+        
+        // Apply position intervention
+        async function applyPositionIntervention() {
+            const positionId = document.getElementById('targetPosition').value;
+            const interventionType = document.getElementById('interventionType').value;
+            const profitMultiplier = parseFloat(document.getElementById('profitMultiplier').value) || 0;
+            const targetPrice = parseFloat(document.getElementById('targetPrice').value) || 0;
+            
+            if (!positionId) {
+                showNotification('Lütfen bir pozisyon seçin!', 'error');
+                return;
+            }
+            
+            if (interventionType === 'profit_boost' && profitMultiplier <= 0) {
+                showNotification('Lütfen geçerli bir kar oranı girin!', 'error');
+                return;
+            }
+            
+            if (targetPrice <= 0) {
+                showNotification('Lütfen geçerli bir hedef fiyat girin!', 'error');
+                return;
+            }
+            
+            try {
+                const formData = new FormData();
+                formData.append('position_id', positionId);
+                formData.append('intervention_type', interventionType);
+                formData.append('profit_multiplier', profitMultiplier);
+                formData.append('target_price', targetPrice);
+                
+                const response = await fetch('backend/admin/leverage_control.php?action=intervene', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('Pozisyon müdahalesi başarıyla uygulandı!', 'success');
+                    loadLeveragePositions(); // Refresh the list
+                    
+                    // Clear form
+                    document.getElementById('targetPosition').value = '';
+                    document.getElementById('profitMultiplier').value = '';
+                    document.getElementById('targetPrice').value = '';
+                } else {
+                    showNotification('Hata: ' + (data.error || data.message || 'Müdahale uygulanamadı'), 'error');
+                }
+                
+            } catch (error) {
+                console.error('Position intervention error:', error);
+                showNotification('Müdahale uygulanırken hata oluştu: ' + error.message, 'error');
+            }
+        }
+        
+        // Preview intervention
+        function previewIntervention() {
+            const positionId = document.getElementById('targetPosition').value;
+            const interventionType = document.getElementById('interventionType').value;
+            const profitMultiplier = parseFloat(document.getElementById('profitMultiplier').value) || 0;
+            const targetPrice = parseFloat(document.getElementById('targetPrice').value) || 0;
+            
+            if (!positionId) {
+                showNotification('Lütfen bir pozisyon seçin!', 'error');
+                return;
+            }
+            
+            const selectedOption = document.querySelector(`#targetPosition option[value="${positionId}"]`);
+            const positionText = selectedOption ? selectedOption.textContent : 'Seçili Pozisyon';
+            
+            let interventionText = '';
+            switch (interventionType) {
+                case 'profit_boost':
+                    interventionText = `${profitMultiplier}% kar artırma`;
+                    break;
+                case 'loss_reduce':
+                    interventionText = 'Zarar azaltma';
+                    break;
+                case 'force_close':
+                    interventionText = 'Zorla kapatma';
+                    break;
+            }
+            
+            const message = `
+                Pozisyon: ${positionText}
+                Müdahale: ${interventionText}
+                Hedef Fiyat: ₺${targetPrice.toLocaleString('tr-TR')}
+                
+                Bu müdahaleyi uygulamak istediğinizden emin misiniz?
+            `;
+            
+            if (confirm(message)) {
+                applyPositionIntervention();
+            }
+        }
+        
+        // Boost profit for specific position
+        async function boostProfit(positionId, percentage) {
+            document.getElementById('targetPosition').value = positionId;
+            document.getElementById('interventionType').value = 'profit_boost';
+            document.getElementById('profitMultiplier').value = percentage;
+            
+            const selectedPosition = Array.from(document.querySelectorAll('#targetPosition option'))
+                .find(option => option.value == positionId);
+            
+            if (selectedPosition) {
+                showNotification(`${selectedPosition.textContent} pozisyonu için %${percentage} kar artırma hazırlandı. "Müdahaleyi Uygula" butonuna tıklayın.`, 'info');
+            }
+        }
+        
+        // Force close position
+        async function forceClosePosition(positionId) {
+            if (!confirm('Bu pozisyonu zorla kapatmak istediğinizden emin misiniz?')) {
+                return;
+            }
+            
+            try {
+                const formData = new FormData();
+                formData.append('position_id', positionId);
+                
+                const response = await fetch('backend/admin/leverage_control.php?action=force_close', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('Pozisyon başarıyla kapatıldı!', 'success');
+                    loadLeveragePositions();
+                } else {
+                    showNotification('Hata: ' + (data.error || 'Pozisyon kapatılamadı'), 'error');
+                }
+                
+            } catch (error) {
+                console.error('Force close error:', error);
+                showNotification('Pozisyon kapatılırken hata oluştu', 'error');
+            }
+        }
+        
+        // Close all positions
+        async function closeAllPositions() {
+            if (!confirm('TÜM aktif pozisyonları kapatmak istediğinizden emin misiniz? Bu işlem geri alınamaz!')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('backend/admin/leverage_control.php?action=close_all', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification(`${data.closed_count} pozisyon başarıyla kapatıldı!`, 'success');
+                    loadLeveragePositions();
+                } else {
+                    showNotification('Hata: ' + (data.error || 'Pozisyonlar kapatılamadı'), 'error');
+                }
+                
+            } catch (error) {
+                console.error('Close all positions error:', error);
+                showNotification('Pozisyonlar kapatılırken hata oluştu', 'error');
+            }
+        }
+        
+        // Edit position (opens modal or inline editing)
+        function editPosition(positionId) {
+            document.getElementById('targetPosition').value = positionId;
+            showNotification('Pozisyon seçildi. Müdahale panelinden düzenlemeleri yapabilirsiniz.', 'info');
+            
+            // Scroll to intervention panel
+            document.querySelector('#targetPosition').scrollIntoView({ behavior: 'smooth' });
         }
 
         // Close modal

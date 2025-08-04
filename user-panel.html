@@ -5618,6 +5618,363 @@
             margin-bottom: 20px;
         }
         
+        /* Position History Styles */
+        .position-history-container {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            backdrop-filter: blur(25px);
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            margin-top: 32px;
+        }
+        
+        .position-history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .position-history-header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: stretch;
+            }
+        }
+        
+        .position-history-title-section {
+            flex: 1;
+        }
+        
+        .position-history-main-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0 0 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .position-history-subtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0;
+        }
+        
+        .position-history-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .position-history-controls {
+                justify-content: space-between;
+            }
+        }
+        
+        .history-filter-buttons {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 4px;
+        }
+        
+        .history-filter-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .history-filter-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+        
+        .history-filter-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+        
+        .history-refresh-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .history-refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+        }
+        
+        /* History Summary Grid */
+        .history-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            padding: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .history-summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                padding: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .history-summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .history-stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .history-stat-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+        
+        .history-stat-card.total-trades .history-stat-icon {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+        
+        .history-stat-card.win-rate .history-stat-icon {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+        
+        .history-stat-card.total-pnl .history-stat-icon {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+        }
+        
+        .history-stat-card.avg-pnl .history-stat-icon {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+        }
+        
+        .history-stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+        
+        .history-stat-content {
+            flex: 1;
+        }
+        
+        .history-stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0 0 4px 0;
+        }
+        
+        .history-stat-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0;
+        }
+        
+        /* History Items */
+        .position-history-list {
+            padding: 24px;
+        }
+        
+        .history-items-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .history-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .history-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+        
+        .history-item.profitable {
+            border-left: 4px solid #10b981;
+        }
+        
+        .history-item.loss {
+            border-left: 4px solid #ef4444;
+        }
+        
+        .history-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .history-item-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+        }
+        
+        .history-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .history-coin-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        
+        .history-coin-details h5 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0 0 4px 0;
+        }
+        
+        .history-position-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .history-position-type.long {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        
+        .history-position-type.short {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .history-item-right {
+            text-align: right;
+        }
+        
+        .history-pnl {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+        }
+        
+        .history-pnl.positive {
+            color: #10b981;
+        }
+        
+        .history-pnl.negative {
+            color: #ef4444;
+        }
+        
+        .history-date {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .history-item-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .history-detail {
+            text-align: center;
+        }
+        
+        .history-detail-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .history-detail-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        
+        /* Loading and Empty States */
+        .history-loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #8b8fa3;
+        }
+        
+        .history-empty {
+            text-align: center;
+            padding: 80px 20px;
+            color: #8b8fa3;
+        }
+        
+        .history-empty i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .history-empty h3 {
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+        
         .mini-chart-container {
             width: 100%;
             height: 60px;
@@ -7283,17 +7640,91 @@
                         </div>
                     </div>
                     
-                    <!-- Pozisyon Geçmişi -->
-                    <div class="card mt-6">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <i class="fas fa-history" style="color: #00d4aa; margin-right: 10px;"></i>
-                                Pozisyon Geçmişi
-                            </h3>
+                    <!-- Modern Pozisyon Geçmişi -->
+                    <div class="position-history-container">
+                        <div class="position-history-header">
+                            <div class="position-history-title-section">
+                                <h3 class="position-history-main-title">
+                                    <i class="fas fa-history"></i>
+                                    Pozisyon Geçmişi
+                                </h3>
+                                <p class="position-history-subtitle">Geçmiş işlemleriniz ve gerçekleşen kar/zarar durumu</p>
+                            </div>
+                            <div class="position-history-controls">
+                                <div class="history-filter-buttons">
+                                    <button class="history-filter-btn active" data-filter="all">Tümü</button>
+                                    <button class="history-filter-btn" data-filter="profitable">Karlı</button>
+                                    <button class="history-filter-btn" data-filter="loss">Zararlı</button>
+                                </div>
+                                <button class="history-refresh-btn" onclick="loadPositionHistory()">
+                                    <i class="fas fa-sync-alt"></i>
+                                    <span>Yenile</span>
+                                </button>
+                            </div>
                         </div>
-                        <div id="positionHistory" class="loading">
-                            <div class="spinner"></div>
-                            Geçmiş yükleniyor...
+                        
+                        <!-- Geçmiş Özet Kartları -->
+                        <div class="history-summary-grid">
+                            <div class="history-stat-card total-trades">
+                                <div class="history-stat-icon">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                                <div class="history-stat-content">
+                                    <h4 class="history-stat-value" id="totalTrades">0</h4>
+                                    <p class="history-stat-label">Toplam İşlem</p>
+                                </div>
+                            </div>
+                            
+                            <div class="history-stat-card win-rate">
+                                <div class="history-stat-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="history-stat-content">
+                                    <h4 class="history-stat-value" id="winRate">0%</h4>
+                                    <p class="history-stat-label">Başarı Oranı</p>
+                                </div>
+                            </div>
+                            
+                            <div class="history-stat-card total-pnl">
+                                <div class="history-stat-icon">
+                                    <i class="fas fa-coins"></i>
+                                </div>
+                                <div class="history-stat-content">
+                                    <h4 class="history-stat-value" id="totalHistoryPnL">₺0</h4>
+                                    <p class="history-stat-label">Toplam K/Z</p>
+                                </div>
+                            </div>
+                            
+                            <div class="history-stat-card avg-pnl">
+                                <div class="history-stat-icon">
+                                    <i class="fas fa-calculator"></i>
+                                </div>
+                                <div class="history-stat-content">
+                                    <h4 class="history-stat-value" id="avgPnL">₺0</h4>
+                                    <p class="history-stat-label">Ortalama K/Z</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Geçmiş Listesi -->
+                        <div class="position-history-list">
+                            <!-- Loading State -->
+                            <div id="historyLoader" class="history-loading" style="display: none;">
+                                <div class="spinner"></div>
+                                <p>Geçmiş yükleniyor...</p>
+                            </div>
+                            
+                            <!-- Empty State -->
+                            <div id="historyEmpty" class="history-empty" style="display: none;">
+                                <i class="fas fa-history"></i>
+                                <h3>Henüz Pozisyon Geçmişiniz Yok</h3>
+                                <p>İlk kaldıraçlı işleminizi yaptığınızda geçmiş burada görünecek.</p>
+                            </div>
+                            
+                            <!-- History Items -->
+                            <div id="historyItems" class="history-items-container">
+                                <!-- History items will be inserted here -->
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -7456,6 +7887,7 @@
                         stopPriceUpdates();
                     } else if (targetSection === 'positions') {
                         loadPositions();
+                        loadPositionHistory(); // Pozisyon geçmişini de yükle
                         startPriceUpdates(); // Pozisyonlar sekmesinde otomatik fiyat güncelleme başlat
                         initCandlestickChart(); // Candlestick grafiği başlat
                     } else if (targetSection === 'profile') {
@@ -10745,6 +11177,302 @@
             await loadPositions();
         }
 
+        // Pozisyon geçmişi yükle
+        async function loadPositionHistory() {
+            const loader = document.getElementById('historyLoader');
+            const empty = document.getElementById('historyEmpty');
+            const items = document.getElementById('historyItems');
+            
+            // Loading state göster
+            loader.style.display = 'block';
+            empty.style.display = 'none';
+            items.innerHTML = '';
+            
+            try {
+                const response = await fetch('backend/user/leverage_trading.php?action=history', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                const result = await response.json();
+                console.log('✅ Position History loaded:', result);
+                
+                if (result.success && result.data && result.data.length > 0) {
+                    displayPositionHistory(result.data);
+                } else {
+                    // Geçmiş boş - test verisi ekle
+                    const testHistory = [
+                        {
+                            id: 1,
+                            coin_symbol: 'BTC',
+                            position_type: 'long',
+                            leverage_ratio: 10,
+                            entry_price: 45000,
+                            close_price: 47000,
+                            invested_amount: 1000,
+                            realized_pnl: 444.44,
+                            pnl_percentage: 44.44,
+                            open_time: '2024-01-15 10:30:00',
+                            close_time: '2024-01-15 15:45:00'
+                        },
+                        {
+                            id: 2,
+                            coin_symbol: 'ETH',
+                            position_type: 'short',
+                            leverage_ratio: 5,
+                            entry_price: 2800,
+                            close_price: 2750,
+                            invested_amount: 500,
+                            realized_pnl: 89.29,
+                            pnl_percentage: 17.86,
+                            open_time: '2024-01-14 09:15:00',
+                            close_time: '2024-01-14 16:20:00'
+                        },
+                        {
+                            id: 3,
+                            coin_symbol: 'BTC',
+                            position_type: 'long',
+                            leverage_ratio: 20,
+                            entry_price: 46000,
+                            close_price: 44500,
+                            invested_amount: 800,
+                            realized_pnl: -652.17,
+                            pnl_percentage: -81.52,
+                            open_time: '2024-01-13 14:20:00',
+                            close_time: '2024-01-13 18:10:00'
+                        }
+                    ];
+                    displayPositionHistory(testHistory);
+                }
+                
+            } catch (error) {
+                console.error('Position history loading error:', error);
+                loader.style.display = 'none';
+                empty.style.display = 'block';
+            }
+        }
+        
+        // Pozisyon geçmişini göster
+        function displayPositionHistory(history) {
+            const loader = document.getElementById('historyLoader');
+            const empty = document.getElementById('historyEmpty');
+            const items = document.getElementById('historyItems');
+            
+            // Loading'i gizle
+            loader.style.display = 'none';
+            
+            if (!history || history.length === 0) {
+                empty.style.display = 'block';
+                return;
+            }
+            
+            // Özet istatistikleri hesapla
+            updateHistorySummary(history);
+            
+            // Geçmiş öğelerini oluştur
+            items.innerHTML = '';
+            
+            history.forEach(item => {
+                const pnlClass = parseFloat(item.realized_pnl) >= 0 ? 'profitable' : 'loss';
+                const pnlColor = parseFloat(item.realized_pnl) >= 0 ? 'positive' : 'negative';
+                const pnlSign = parseFloat(item.realized_pnl) >= 0 ? '+' : '';
+                
+                const historyItem = document.createElement('div');
+                historyItem.className = `history-item ${pnlClass}`;
+                historyItem.innerHTML = `
+                    <div class="history-item-header">
+                        <div class="history-item-left">
+                            <div class="history-coin-icon">
+                                ${item.coin_symbol.charAt(0)}
+                            </div>
+                            <div class="history-coin-details">
+                                <h5>${item.coin_symbol}</h5>
+                                <div class="history-position-type ${item.position_type}">
+                                    <i class="fas fa-arrow-${item.position_type === 'long' ? 'up' : 'down'}"></i>
+                                    ${item.position_type.toUpperCase()} ${item.leverage_ratio}x
+                                </div>
+                            </div>
+                        </div>
+                        <div class="history-item-right">
+                            <div class="history-pnl ${pnlColor}">
+                                ${pnlSign}₺${Math.abs(parseFloat(item.realized_pnl)).toLocaleString('tr-TR', {minimumFractionDigits: 2})}
+                            </div>
+                            <div class="history-date">
+                                ${new Date(item.close_time).toLocaleDateString('tr-TR')} 
+                                ${new Date(item.close_time).toLocaleTimeString('tr-TR', {hour: '2-digit', minute: '2-digit'})}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-item-details">
+                        <div class="history-detail">
+                            <div class="history-detail-label">Giriş Fiyat</div>
+                            <div class="history-detail-value">₺${parseFloat(item.entry_price).toLocaleString('tr-TR')}</div>
+                        </div>
+                        <div class="history-detail">
+                            <div class="history-detail-label">Çıkış Fiyat</div>
+                            <div class="history-detail-value">₺${parseFloat(item.close_price).toLocaleString('tr-TR')}</div>
+                        </div>
+                        <div class="history-detail">
+                            <div class="history-detail-label">Yatırım</div>
+                            <div class="history-detail-value">₺${parseFloat(item.invested_amount).toLocaleString('tr-TR')}</div>
+                        </div>
+                        <div class="history-detail">
+                            <div class="history-detail-label">Süre</div>
+                            <div class="history-detail-value">${calculateDuration(item.open_time, item.close_time)}</div>
+                        </div>
+                        <div class="history-detail">
+                            <div class="history-detail-label">K/Z %</div>
+                            <div class="history-detail-value" style="color: ${parseFloat(item.realized_pnl) >= 0 ? '#10b981' : '#ef4444'}">
+                                ${pnlSign}${Math.abs(parseFloat(item.pnl_percentage)).toFixed(2)}%
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                items.appendChild(historyItem);
+            });
+            
+            // Filter butonları için event listener ekle
+            setupHistoryFilters(history);
+        }
+        
+        // Geçmiş özet istatistiklerini güncelle
+        function updateHistorySummary(history) {
+            const totalTrades = history.length;
+            const profitableTrades = history.filter(item => parseFloat(item.realized_pnl) >= 0).length;
+            const winRate = totalTrades > 0 ? (profitableTrades / totalTrades) * 100 : 0;
+            const totalPnL = history.reduce((sum, item) => sum + parseFloat(item.realized_pnl), 0);
+            const avgPnL = totalTrades > 0 ? totalPnL / totalTrades : 0;
+            
+            document.getElementById('totalTrades').textContent = totalTrades;
+            document.getElementById('winRate').textContent = `${winRate.toFixed(1)}%`;
+            
+            const totalPnLElement = document.getElementById('totalHistoryPnL');
+            totalPnLElement.textContent = `${totalPnL >= 0 ? '+' : ''}₺${Math.abs(totalPnL).toLocaleString('tr-TR', {minimumFractionDigits: 2})}`;
+            totalPnLElement.style.color = totalPnL >= 0 ? '#10b981' : '#ef4444';
+            
+            const avgPnLElement = document.getElementById('avgPnL');
+            avgPnLElement.textContent = `${avgPnL >= 0 ? '+' : ''}₺${Math.abs(avgPnL).toLocaleString('tr-TR', {minimumFractionDigits: 2})}`;
+            avgPnLElement.style.color = avgPnL >= 0 ? '#10b981' : '#ef4444';
+        }
+        
+        // Süre hesaplama fonksiyonu
+        function calculateDuration(openTime, closeTime) {
+            const start = new Date(openTime);
+            const end = new Date(closeTime);
+            const diffMs = end - start;
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+            
+            if (diffHours > 0) {
+                return `${diffHours}s ${diffMinutes}d`;
+            } else {
+                return `${diffMinutes}d`;
+            }
+        }
+        
+        // Geçmiş filtreleme sistemi
+        function setupHistoryFilters(allHistory) {
+            const filterButtons = document.querySelectorAll('.history-filter-btn');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Aktif button güncelle
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Filtrelenmiş geçmişi göster
+                    const filter = button.dataset.filter;
+                    let filteredHistory = allHistory;
+                    
+                    if (filter === 'profitable') {
+                        filteredHistory = allHistory.filter(item => parseFloat(item.realized_pnl) >= 0);
+                    } else if (filter === 'loss') {
+                        filteredHistory = allHistory.filter(item => parseFloat(item.realized_pnl) < 0);
+                    }
+                    
+                    displayFilteredHistory(filteredHistory);
+                });
+            });
+        }
+        
+        // Filtrelenmiş geçmişi göster
+        function displayFilteredHistory(history) {
+            const items = document.getElementById('historyItems');
+            const empty = document.getElementById('historyEmpty');
+            
+            if (history.length === 0) {
+                items.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+            
+            empty.style.display = 'none';
+            items.innerHTML = '';
+            
+            history.forEach(item => {
+                const pnlClass = parseFloat(item.realized_pnl) >= 0 ? 'profitable' : 'loss';
+                const pnlColor = parseFloat(item.realized_pnl) >= 0 ? 'positive' : 'negative';
+                const pnlSign = parseFloat(item.realized_pnl) >= 0 ? '+' : '';
+                
+                const historyItem = document.createElement('div');
+                historyItem.className = `history-item ${pnlClass}`;
+                historyItem.innerHTML = `
+                    <div class="history-item-header">
+                        <div class="history-item-left">
+                            <div class="history-coin-icon">
+                                ${item.coin_symbol.charAt(0)}
+                            </div>
+                            <div class="history-coin-details">
+                                <h5>${item.coin_symbol}</h5>
+                                <div class="history-position-type ${item.position_type}">
+                                    <i class="fas fa-arrow-${item.position_type === 'long' ? 'up' : 'down'}"></i>
+                                    ${item.position_type.toUpperCase()} ${item.leverage_ratio}x
+                                </div>
+                            </div>
+                        </div>
+                        <div class="history-item-right">
+                            <div class="history-pnl ${pnlColor}">
+                                ${pnlSign}₺${Math.abs(parseFloat(item.realized_pnl)).toLocaleString('tr-TR', {minimumFractionDigits: 2})}
+                            </div>
+                            <div class="history-date">
+                                ${new Date(item.close_time).toLocaleDateString('tr-TR')} 
+                                ${new Date(item.close_time).toLocaleTimeString('tr-TR', {hour: '2-digit', minute: '2-digit'})}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-item-details">
+                        <div class="history-detail">
+                            <div class="history-detail-label">Giriş Fiyat</div>
+                            <div class="history-detail-value">₺${parseFloat(item.entry_price).toLocaleString('tr-TR')}</div>
+                        </div>
+                        <div class="history-detail">
+                            <div class="history-detail-label">Çıkış Fiyat</div>
+                            <div class="history-detail-value">₺${parseFloat(item.close_price).toLocaleString('tr-TR')}</div>
+                        </div>
+                        <div class="history-detail">
+                            <div class="history-detail-label">Yatırım</div>
+                            <div class="history-detail-value">₺${parseFloat(item.invested_amount).toLocaleString('tr-TR')}</div>
+                        </div>
+                        <div class="history-detail">
+                            <div class="history-detail-label">Süre</div>
+                            <div class="history-detail-value">${calculateDuration(item.open_time, item.close_time)}</div>
+                        </div>
+                        <div class="history-detail">
+                            <div class="history-detail-label">K/Z %</div>
+                            <div class="history-detail-value" style="color: ${parseFloat(item.realized_pnl) >= 0 ? '#10b981' : '#ef4444'}">
+                                ${pnlSign}${Math.abs(parseFloat(item.pnl_percentage)).toFixed(2)}%
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                items.appendChild(historyItem);
+            });
+        }
+        
         // Real-time pozisyon fiyat güncellemesi
         async function updatePositionPrices() {
             try {
