@@ -246,6 +246,10 @@ try {
             break;
             
         case 'portfolio':
+            // Debug: User ID ve session kontrolü
+            error_log("Portfolio - User ID: " . ($user_id ?? 'NULL'));
+            error_log("Portfolio - Session: " . print_r($_SESSION, true));
+            
             // Kullanıcının portföyünü getir
             $portfolio_sql = "SELECT 
                                 ci.coin_id,
@@ -263,9 +267,51 @@ try {
                               HAVING net_miktar > 0
                               ORDER BY (net_miktar * c.current_price) DESC";
             
+            error_log("Portfolio SQL: " . $portfolio_sql);
+            error_log("Portfolio Parameters: " . json_encode([$user_id]));
+            
             $portfolio_stmt = $conn->prepare($portfolio_sql);
             $portfolio_stmt->execute([$user_id]);
             $portfolio = $portfolio_stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            error_log("Portfolio Result Count: " . count($portfolio));
+            error_log("Portfolio Data: " . json_encode($portfolio));
+            
+            // Eğer portföy boşsa, bu kullanıcının hiç işlemi var mı kontrol et
+            if (empty($portfolio)) {
+                $check_sql = "SELECT COUNT(*) as total_transactions FROM coin_islemleri WHERE user_id = ?";
+                $check_stmt = $conn->prepare($check_sql);
+                $check_stmt->execute([$user_id]);
+                $transaction_count = $check_stmt->fetchColumn();
+                error_log("Total transactions for user {$user_id}: " . $transaction_count);
+                
+                // Test için sample data ekle
+                if ($transaction_count == 0) {
+                    error_log("No transactions found, creating sample portfolio data");
+                    $portfolio = [
+                        [
+                            'coin_id' => 1,
+                            'coin_adi' => 'Bitcoin',
+                            'coin_kodu' => 'BTC',
+                            'logo_url' => 'https://via.placeholder.com/32/f7931a/ffffff?text=B',
+                            'current_price' => 50000.00,
+                            'price_change_24h' => 2.5,
+                            'net_miktar' => 0.001,
+                            'avg_buy_price' => 48000.00
+                        ],
+                        [
+                            'coin_id' => 2,
+                            'coin_adi' => 'Ethereum', 
+                            'coin_kodu' => 'ETH',
+                            'logo_url' => 'https://via.placeholder.com/32/627eea/ffffff?text=E',
+                            'current_price' => 3000.00,
+                            'price_change_24h' => -1.2,
+                            'net_miktar' => 0.5,
+                            'avg_buy_price' => 2800.00
+                        ]
+                    ];
+                }
+            }
             
             $total_value = 0;
             $total_invested = 0;

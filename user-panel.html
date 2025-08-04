@@ -5116,6 +5116,504 @@
             background: rgba(255, 255, 255, 0.05);
         }
         
+        /* Enhanced Positions Styles */
+        .positions-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        @media (max-width: 768px) {
+            .positions-summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .positions-summary-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+        
+        .position-stat-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(30px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .position-stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .position-stat-card.active-positions::before {
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+        }
+        
+        .position-stat-card.total-investment::before {
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        }
+        
+        .position-stat-card.total-pnl::before {
+            background: linear-gradient(90deg, #10b981, #34d399);
+        }
+        
+        .position-stat-card.best-position::before {
+            background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+        }
+        
+        .position-stat-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+        
+        .position-stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .position-stat-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #ffffff;
+        }
+        
+        .position-stat-trend {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #10b981;
+        }
+        
+        .position-stat-trend.down {
+            color: #ef4444;
+        }
+        
+        .position-stat-badge {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .position-stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0 0 8px 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .position-stat-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            margin: 0 0 8px 0;
+        }
+        
+        .position-stat-change {
+            font-size: 12px;
+            font-weight: 600;
+            color: #10b981;
+        }
+        
+        /* Positions Container */
+        .positions-container {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            backdrop-filter: blur(25px);
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .positions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .positions-header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: stretch;
+            }
+        }
+        
+        .positions-title-section {
+            flex: 1;
+        }
+        
+        .positions-main-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0 0 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .positions-subtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0;
+        }
+        
+        .positions-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .positions-controls {
+                justify-content: space-between;
+            }
+        }
+        
+        .positions-view-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 4px;
+        }
+        
+        .positions-view-btn {
+            padding: 8px 12px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .positions-view-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+        
+        .positions-view-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+        
+        .positions-refresh-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .positions-refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+        }
+        
+        /* Position Cards */
+        .positions-cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+            padding: 24px;
+        }
+        
+        @media (max-width: 768px) {
+            .positions-cards-container {
+                grid-template-columns: 1fr;
+                padding: 16px;
+            }
+        }
+        
+        .position-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .position-card.long::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #10b981, #34d399);
+        }
+        
+        .position-card.short::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ef4444, #f87171);
+        }
+        
+        .position-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+        
+        .position-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .position-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .position-coin-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #ffffff;
+        }
+        
+        .position-details h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0 0 4px 0;
+        }
+        
+        .position-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .position-type-badge.long {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        
+        .position-type-badge.short {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .position-pnl {
+            text-align: right;
+        }
+        
+        .position-pnl-amount {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+        }
+        
+        .position-pnl-percent {
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .position-pnl.positive .position-pnl-amount,
+        .position-pnl.positive .position-pnl-percent {
+            color: #10b981;
+        }
+        
+        .position-pnl.negative .position-pnl-amount,
+        .position-pnl.negative .position-pnl-percent {
+            color: #ef4444;
+        }
+        
+        .position-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .position-metric {
+            text-align: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        
+        .position-metric-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .position-metric-value {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        .position-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .position-action-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .position-action-btn.close {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+            color: white;
+        }
+        
+        .position-action-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Enhanced Positions Table */
+        .enhanced-positions-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: transparent;
+        }
+        
+        .enhanced-positions-table th {
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .enhanced-positions-table td {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 14px;
+        }
+        
+        .enhanced-positions-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Loading and Empty States */
+        .positions-loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #8b8fa3;
+        }
+        
+        .positions-empty {
+            text-align: center;
+            padding: 80px 20px;
+            color: #8b8fa3;
+        }
+        
+        .positions-empty i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .positions-empty h3 {
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+        
+        .positions-empty p {
+            margin-bottom: 24px;
+        }
+        
+        .empty-action-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .empty-action-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        
         .position-chart {
             margin-bottom: 20px;
         }
@@ -6605,35 +7103,67 @@
                         <p class="section-subtitle">Açık pozisyonlarınız ve kar/zarar durumu</p>
                     </div>
                     
-                    <!-- Pozisyon Özeti Kartları -->
-                    <div class="position-summary-grid mb-6">
-                        <div class="card stat-card enhanced">
-                            <div class="stat-icon chart-icon">
-                                <i class="fas fa-chart-line"></i>
+                    <!-- Modern Pozisyon Özeti -->
+                    <div class="positions-summary-grid">
+                        <div class="position-stat-card active-positions">
+                            <div class="position-stat-header">
+                                <div class="position-stat-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="position-stat-trend" id="positionsTrend">
+                                    <i class="fas fa-arrow-up"></i>
+                                </div>
                             </div>
-                            <div class="stat-content">
-                                <h4 class="stat-value" id="totalPositions">0</h4>
-                                <p class="stat-label">Açık Pozisyon</p>
-                            </div>
-                        </div>
-                        
-                        <div class="card stat-card enhanced">
-                            <div class="stat-icon investment-icon">
-                                <i class="fas fa-coins"></i>
-                            </div>
-                            <div class="stat-content">
-                                <h4 class="stat-value" id="totalInvested">₺0</h4>
-                                <p class="stat-label">Toplam Yatırım</p>
+                            <div class="position-stat-content">
+                                <h3 class="position-stat-value" id="totalPositions">0</h3>
+                                <p class="position-stat-label">Açık Pozisyon</p>
+                                <div class="position-stat-change" id="positionsChange">Bu hafta: +0</div>
                             </div>
                         </div>
                         
-                        <div class="card stat-card enhanced">
-                            <div class="stat-icon pnl-icon">
-                                <i class="fas fa-trophy"></i>
+                        <div class="position-stat-card total-investment">
+                            <div class="position-stat-header">
+                                <div class="position-stat-icon">
+                                    <i class="fas fa-coins"></i>
+                                </div>
+                                <div class="position-stat-badge" id="newInvestmentBadge">₺0</div>
                             </div>
-                            <div class="stat-content">
-                                <h4 class="stat-value" id="totalUnrealizedPnL">₺0</h4>
-                                <p class="stat-label">Gerçekleşmemiş K/Z</p>
+                            <div class="position-stat-content">
+                                <h3 class="position-stat-value" id="totalInvested">₺0</h3>
+                                <p class="position-stat-label">Toplam Yatırım</p>
+                                <div class="position-stat-change" id="investmentChange">Ortalama: ₺0</div>
+                            </div>
+                        </div>
+                        
+                        <div class="position-stat-card total-pnl">
+                            <div class="position-stat-header">
+                                <div class="position-stat-icon">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                                <div class="position-stat-trend" id="pnlTrend">
+                                    <i class="fas fa-arrow-up"></i>
+                                </div>
+                            </div>
+                            <div class="position-stat-content">
+                                <h3 class="position-stat-value" id="totalUnrealizedPnL">₺0</h3>
+                                <p class="position-stat-label">Gerçekleşmemiş K/Z</p>
+                                <div class="position-stat-change" id="pnlPercentage">0%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="position-stat-card best-position">
+                            <div class="position-stat-header">
+                                <div class="position-stat-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="position-stat-trend up">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                            </div>
+                            <div class="position-stat-content">
+                                <h3 class="position-stat-value" id="bestPositionValue">-</h3>
+                                <p class="position-stat-label">En İyi Pozisyon</p>
+                                <div class="position-stat-change" id="bestPositionChange">-</div>
                             </div>
                         </div>
                     </div>
@@ -6642,21 +7172,114 @@
 
 
 
-                    <!-- Açık Pozisyonlar Tablosu -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <i class="fas fa-chart-line" style="color: #00d4aa; margin-right: 10px;"></i>
-                                Açık Pozisyonlar
-                            </h3>
-                            <button class="btn-primary" onclick="refreshPositions()">
-                                <i class="fas fa-sync-alt"></i>
-                                Yenile
-                            </button>
+                    <!-- Modern Pozisyonlar Paneli -->
+                    <div class="positions-container">
+                        <div class="positions-header">
+                            <div class="positions-title-section">
+                                <h3 class="positions-main-title">
+                                    <i class="fas fa-chart-line"></i>
+                                    Açık Pozisyonlar
+                                </h3>
+                                <p class="positions-subtitle">Kaldıraçlı işlemleriniz ve gerçek zamanlı performans</p>
+                            </div>
+                            <div class="positions-controls">
+                                <div class="positions-view-toggle">
+                                    <button class="positions-view-btn active" id="positionsCardViewBtn" onclick="togglePositionsView('cards')">
+                                        <i class="fas fa-th-large"></i>
+                                    </button>
+                                    <button class="positions-view-btn" id="positionsTableViewBtn" onclick="togglePositionsView('table')">
+                                        <i class="fas fa-list"></i>
+                                    </button>
+                                </div>
+                                <button class="positions-refresh-btn" onclick="refreshPositions()">
+                                    <i class="fas fa-sync-alt"></i>
+                                    <span>Yenile</span>
+                                </button>
+                            </div>
                         </div>
-                        <div id="positionsTable" class="loading">
+                        
+                        <!-- Modern Pozisyon Kartları -->
+                        <div id="positionsCards" class="positions-cards-container">
+                            <!-- Cards will be inserted here -->
+                        </div>
+                        
+                        <!-- Pozisyon Tablosu -->
+                        <div id="positionsTable" class="positions-table-container" style="display: none;">
+                            <div class="table-wrapper">
+                                <table class="enhanced-positions-table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <div class="th-content">
+                                                    <i class="fas fa-coins"></i>
+                                                    <span>Varlık</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="th-content">
+                                                    <i class="fas fa-exchange-alt"></i>
+                                                    <span>Tip</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="th-content">
+                                                    <i class="fas fa-layer-group"></i>
+                                                    <span>Kaldıraç</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="th-content">
+                                                    <i class="fas fa-sign-in-alt"></i>
+                                                    <span>Giriş</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="th-content">
+                                                    <i class="fas fa-chart-line"></i>
+                                                    <span>Güncel</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="th-content">
+                                                    <i class="fas fa-wallet"></i>
+                                                    <span>Yatırım</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="th-content">
+                                                    <i class="fas fa-chart-bar"></i>
+                                                    <span>K/Z</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="th-content">
+                                                    <i class="fas fa-cogs"></i>
+                                                    <span>İşlemler</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="positionsTableBody">
+                                        <!-- Position items will be inserted here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Loading State -->
+                        <div id="positionsLoader" class="positions-loading" style="display: none;">
                             <div class="spinner"></div>
-                            Pozisyonlar yükleniyor...
+                            <p>Pozisyonlar yükleniyor...</p>
+                        </div>
+                        
+                        <!-- Empty State -->
+                        <div id="positionsEmpty" class="positions-empty" style="display: none;">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>Henüz Açık Pozisyonunuz Yok</h3>
+                            <p>Kaldıraçlı işlem yapmak için piyasalar sayfasından coin seçebilirsiniz.</p>
+                            <button onclick="showSection('markets')" class="empty-action-btn">
+                                <i class="fas fa-plus"></i> Pozisyon Aç
+                            </button>
                         </div>
                     </div>
                     
@@ -10082,14 +10705,42 @@
             }
         }
 
+        // Global positions view state
+        let currentPositionsView = 'cards';
+        
+        // Pozisyonlar görünüm değiştirme
+        function togglePositionsView(view) {
+            currentPositionsView = view;
+            const cardsContainer = document.getElementById('positionsCards');
+            const tableContainer = document.getElementById('positionsTable');
+            const cardViewBtn = document.getElementById('positionsCardViewBtn');
+            const tableViewBtn = document.getElementById('positionsTableViewBtn');
+            
+            if (view === 'cards') {
+                cardsContainer.style.display = 'grid';
+                tableContainer.style.display = 'none';
+                cardViewBtn.classList.add('active');
+                tableViewBtn.classList.remove('active');
+            } else {
+                cardsContainer.style.display = 'none';
+                tableContainer.style.display = 'block';
+                cardViewBtn.classList.remove('active');
+                tableViewBtn.classList.add('active');
+            }
+        }
+        
         // Pozisyonları yenile
         async function refreshPositions() {
-            document.getElementById('positionsTable').innerHTML = `
-                <div class="loading">
-                    <div class="spinner"></div>
-                    Pozisyonlar yenileniyor...
-                </div>
-            `;
+            const loader = document.getElementById('positionsLoader');
+            const cardsContainer = document.getElementById('positionsCards');
+            const tableContainer = document.getElementById('positionsTable');
+            const emptyState = document.getElementById('positionsEmpty');
+            
+            // Loading state göster
+            loader.style.display = 'block';
+            cardsContainer.style.display = 'none';
+            tableContainer.style.display = 'none';
+            emptyState.style.display = 'none';
             
             await loadPositions();
         }
