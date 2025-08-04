@@ -4702,6 +4702,420 @@
             }
         }
         
+        /* Enhanced Portfolio Styles */
+        .portfolio-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        @media (max-width: 768px) {
+            .portfolio-summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .portfolio-summary-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+        
+        .portfolio-stat-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(30px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .portfolio-stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .portfolio-stat-card.total-value::before {
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+        }
+        
+        .portfolio-stat-card.profit-loss::before {
+            background: linear-gradient(90deg, #10b981, #34d399);
+        }
+        
+        .portfolio-stat-card.asset-count::before {
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        }
+        
+        .portfolio-stat-card.best-performer::before {
+            background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+        }
+        
+        .portfolio-stat-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+        
+        .portfolio-stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .portfolio-stat-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #ffffff;
+        }
+        
+        .portfolio-stat-trend {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #10b981;
+        }
+        
+        .portfolio-stat-trend.down {
+            color: #ef4444;
+        }
+        
+        .portfolio-stat-badge {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .portfolio-stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0 0 8px 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .portfolio-stat-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            margin: 0 0 8px 0;
+        }
+        
+        .portfolio-stat-change {
+            font-size: 12px;
+            font-weight: 600;
+            color: #10b981;
+        }
+        
+        /* Portfolio Container */
+        .portfolio-container {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            backdrop-filter: blur(25px);
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .portfolio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .portfolio-header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: stretch;
+            }
+        }
+        
+        .portfolio-title-section {
+            flex: 1;
+        }
+        
+        .portfolio-main-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0 0 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .portfolio-subtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0;
+        }
+        
+        .portfolio-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .portfolio-controls {
+                justify-content: space-between;
+            }
+        }
+        
+        .view-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 4px;
+        }
+        
+        .view-btn {
+            padding: 8px 12px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .view-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+        
+        .view-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+        
+        .refresh-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+        }
+        
+        /* Portfolio Cards */
+        .portfolio-cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 24px;
+        }
+        
+        @media (max-width: 768px) {
+            .portfolio-cards-container {
+                grid-template-columns: 1fr;
+                padding: 16px;
+            }
+        }
+        
+        .portfolio-asset-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .portfolio-asset-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+        
+        .asset-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .asset-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .asset-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .asset-details h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0 0 4px 0;
+        }
+        
+        .asset-details p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0;
+        }
+        
+        .asset-trend {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .asset-trend.positive {
+            color: #10b981;
+        }
+        
+        .asset-trend.negative {
+            color: #ef4444;
+        }
+        
+        .asset-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .metric {
+            text-align: center;
+        }
+        
+        .metric-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .metric-value {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        .asset-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .asset-action-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .asset-action-btn.buy {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: white;
+        }
+        
+        .asset-action-btn.sell {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+            color: white;
+        }
+        
+        .asset-action-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Enhanced Table */
+        .table-wrapper {
+            padding: 24px;
+            overflow-x: auto;
+        }
+        
+        .enhanced-portfolio-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: transparent;
+        }
+        
+        .enhanced-portfolio-table th {
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .th-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        
+        .enhanced-portfolio-table td {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 14px;
+        }
+        
+        .enhanced-portfolio-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
         .position-chart {
             margin-bottom: 20px;
         }
@@ -5385,58 +5799,94 @@
                     </div>
                     
                     <!-- Portföy Özeti -->
-                    <div class="grid grid-4">
-                        <div class="card stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-wallet" style="color: #00d4aa;"></i>
+                    <div class="portfolio-summary-grid">
+                        <div class="portfolio-stat-card total-value">
+                            <div class="portfolio-stat-header">
+                                <div class="portfolio-stat-icon">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="portfolio-stat-trend">
+                                    <i class="fas fa-arrow-up" id="totalValueTrend"></i>
+                                </div>
                             </div>
-                            <div class="stat-content">
-                                <h4 class="stat-value" id="portfolioTotalValue">₺0</h4>
-                                <p class="stat-label">Toplam Portföy Değeri</p>
-                            </div>
-                        </div>
-                        
-                        <div class="card stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-chart-line" style="color: #ffa726;"></i>
-                            </div>
-                            <div class="stat-content">
-                                <h4 class="stat-value" id="portfolioProfitLoss">₺0</h4>
-                                <p class="stat-label">Toplam Kar/Zarar</p>
+                            <div class="portfolio-stat-content">
+                                <h3 class="portfolio-stat-value" id="portfolioTotalValue">₺0</h3>
+                                <p class="portfolio-stat-label">Toplam Portföy Değeri</p>
+                                <div class="portfolio-stat-change" id="totalValueChange">+₺0 (0%)</div>
                             </div>
                         </div>
                         
-                        <div class="card stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-percentage" style="color: #42a5f5;"></i>
+                        <div class="portfolio-stat-card profit-loss">
+                            <div class="portfolio-stat-header">
+                                <div class="portfolio-stat-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="portfolio-stat-trend">
+                                    <i class="fas fa-arrow-up" id="profitLossTrend"></i>
+                                </div>
                             </div>
-                            <div class="stat-content">
-                                <h4 class="stat-value" id="portfolioProfitPercent">0%</h4>
-                                <p class="stat-label">Kar/Zarar Oranı</p>
+                            <div class="portfolio-stat-content">
+                                <h3 class="portfolio-stat-value" id="portfolioProfitLoss">₺0</h3>
+                                <p class="portfolio-stat-label">Gerçekleşmemiş K/Z</p>
+                                <div class="portfolio-stat-change" id="profitLossPercent">0%</div>
                             </div>
                         </div>
                         
-                        <div class="card stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-coins" style="color: #ab47bc;"></i>
+                        <div class="portfolio-stat-card asset-count">
+                            <div class="portfolio-stat-header">
+                                <div class="portfolio-stat-icon">
+                                    <i class="fas fa-coins"></i>
+                                </div>
+                                <div class="portfolio-stat-badge" id="newAssetBadge">+0</div>
                             </div>
-                            <div class="stat-content">
-                                <h4 class="stat-value" id="portfolioCoinCount">0</h4>
-                                <p class="stat-label">Coin Sayısı</p>
+                            <div class="portfolio-stat-content">
+                                <h3 class="portfolio-stat-value" id="portfolioCoinCount">0</h3>
+                                <p class="portfolio-stat-label">Varlık Sayısı</p>
+                                <div class="portfolio-stat-change" id="assetDistribution">%0 çeşitlilik</div>
+                            </div>
+                        </div>
+                        
+                        <div class="portfolio-stat-card best-performer">
+                            <div class="portfolio-stat-header">
+                                <div class="portfolio-stat-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="portfolio-stat-trend up">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                            </div>
+                            <div class="portfolio-stat-content">
+                                <h3 class="portfolio-stat-value" id="bestPerformerValue">-</h3>
+                                <p class="portfolio-stat-label">En İyi Performans</p>
+                                <div class="portfolio-stat-change" id="bestPerformerChange">-</div>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Portföy Listesi -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <i class="fas fa-list" style="color: #00d4aa;"></i>
-                                Varlık Listesi
-                            </h3>
-                            <button class="btn-secondary" onclick="loadPortfolio()" style="padding: 8px 16px;">
-                                <i class="fas fa-refresh"></i> Yenile
-                            </button>
+                    <div class="portfolio-container">
+                        <div class="portfolio-header">
+                            <div class="portfolio-title-section">
+                                <h3 class="portfolio-main-title">
+                                    <i class="fas fa-briefcase"></i>
+                                    Varlık Portföyü
+                                </h3>
+                                <p class="portfolio-subtitle">Sahip olduğunuz kripto varlıkların detayları</p>
+                            </div>
+                            <div class="portfolio-controls">
+                                <div class="view-toggle">
+                                    <button class="view-btn active" id="cardViewBtn" onclick="togglePortfolioView('cards')">
+                                        <i class="fas fa-th-large"></i>
+                                    </button>
+                                    <button class="view-btn" id="tableViewBtn" onclick="togglePortfolioView('table')">
+                                        <i class="fas fa-list"></i>
+                                    </button>
+                                </div>
+                                <button class="refresh-btn" onclick="loadPortfolio()">
+                                    <i class="fas fa-sync-alt"></i>
+                                    <span>Yenile</span>
+                                </button>
+                            </div>
                         </div>
                         
                         <!-- Loading State -->
@@ -5455,20 +5905,65 @@
                             </button>
                         </div>
                         
-                        <!-- Portfolio Table -->
-                        <div id="portfolioTable" style="display: none;">
-                            <div class="table-responsive">
-                                <table class="modern-table">
+                        <!-- Portfolio Cards View -->
+                        <div id="portfolioCards" class="portfolio-cards-container">
+                            <!-- Cards will be inserted here -->
+                        </div>
+                        
+                        <!-- Portfolio Table View -->
+                        <div id="portfolioTable" class="portfolio-table-container" style="display: none;">
+                            <div class="table-wrapper">
+                                <table class="enhanced-portfolio-table">
                                     <thead>
                                         <tr>
-                                            <th>Varlık</th>
-                                            <th>Miktar</th>
-                                            <th>Ortalama Fiyat</th>
-                                            <th>Güncel Fiyat</th>
-                                            <th>Değer</th>
-                                            <th>Kar/Zarar</th>
-                                            <th>%</th>
-                                            <th>İşlemler</th>
+                                            <th>
+                                                <div class="th-content">
+                                                    <i class="fas fa-coins"></i>
+                                                    <span>Varlık</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="th-content">
+                                                    <i class="fas fa-layer-group"></i>
+                                                    <span>Miktar</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="th-content">
+                                                    <i class="fas fa-calculator"></i>
+                                                    <span>Ort. Fiyat</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="th-content">
+                                                    <i class="fas fa-chart-line"></i>
+                                                    <span>Güncel</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="th-content">
+                                                    <i class="fas fa-wallet"></i>
+                                                    <span>Değer</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="th-content">
+                                                    <i class="fas fa-chart-bar"></i>
+                                                    <span>K/Z</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="th-content">
+                                                    <i class="fas fa-percentage"></i>
+                                                    <span>%</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="th-content">
+                                                    <i class="fas fa-cogs"></i>
+                                                    <span>İşlemler</span>
+                                                </div>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody id="portfolioTableBody">
@@ -7031,36 +7526,179 @@
             }
         }
         
+        // Global portfolio view state
+        let currentPortfolioView = 'cards';
+        
+        // Portföy görünüm değiştirme
+        function togglePortfolioView(view) {
+            currentPortfolioView = view;
+            const cardsContainer = document.getElementById('portfolioCards');
+            const tableContainer = document.getElementById('portfolioTable');
+            const cardViewBtn = document.getElementById('cardViewBtn');
+            const tableViewBtn = document.getElementById('tableViewBtn');
+            
+            if (view === 'cards') {
+                cardsContainer.style.display = 'grid';
+                tableContainer.style.display = 'none';
+                cardViewBtn.classList.add('active');
+                tableViewBtn.classList.remove('active');
+            } else {
+                cardsContainer.style.display = 'none';
+                tableContainer.style.display = 'block';
+                cardViewBtn.classList.remove('active');
+                tableViewBtn.classList.add('active');
+            }
+        }
+        
         // Portföy verilerini göster
         function displayPortfolio(data) {
             const loader = document.getElementById('portfolioLoader');
-            const table = document.getElementById('portfolioTable');
+            const cardsContainer = document.getElementById('portfolioCards');
+            const tableContainer = document.getElementById('portfolioTable');
             const tbody = document.getElementById('portfolioTableBody');
             
-            // Loading'i gizle, tabloyu göster
+            // Loading'i gizle
             loader.style.display = 'none';
-            table.style.display = 'block';
             
             // Özet bilgilerini güncelle
             const summary = data.summary;
+            updatePortfolioSummary(summary, data.portfolio);
+            
+            // Kart görünümü oluştur
+            displayPortfolioCards(data.portfolio, cardsContainer);
+            
+            // Tablo görünümü oluştur
+            displayPortfolioTable(data.portfolio, tbody);
+            
+            // Aktif görünümü göster
+            togglePortfolioView(currentPortfolioView);
+            
+            // Başarı mesajı göster
+            if (typeof showNotification === 'function') {
+                showNotification(`Portföy yüklendi: ${summary.coin_count} farklı varlık`, 'success');
+            }
+        }
+        
+        // Portföy özet kartlarını güncelle
+        function updatePortfolioSummary(summary, portfolio) {
             document.getElementById('portfolioTotalValue').textContent = `₺${summary.total_value.toLocaleString('tr-TR', {minimumFractionDigits: 2})}`;
             document.getElementById('portfolioProfitLoss').textContent = `₺${summary.total_profit_loss.toLocaleString('tr-TR', {minimumFractionDigits: 2})}`;
-            document.getElementById('portfolioProfitPercent').textContent = `${summary.total_profit_loss_percent.toFixed(2)}%`;
+            
+            const profitElement = document.getElementById('portfolioProfitLoss');
+            const profitPercentElement = document.getElementById('profitLossPercent');
+            const totalValueTrend = document.getElementById('totalValueTrend');
+            const profitLossTrend = document.getElementById('profitLossTrend');
+            
+            // Kar/Zarar rengini ayarla
+            const isProfit = summary.total_profit_loss >= 0;
+            const color = isProfit ? '#10b981' : '#ef4444';
+            const icon = isProfit ? 'fa-arrow-up' : 'fa-arrow-down';
+            
+            profitElement.style.color = color;
+            if (profitPercentElement) {
+                profitPercentElement.textContent = `${isProfit ? '+' : ''}${summary.total_profit_loss_percent.toFixed(2)}%`;
+                profitPercentElement.style.color = color;
+            }
+            
+            // Trend ikonlarını güncelle
+            if (totalValueTrend) {
+                totalValueTrend.className = `fas ${icon}`;
+                totalValueTrend.style.color = color;
+            }
+            if (profitLossTrend) {
+                profitLossTrend.className = `fas ${icon}`;
+                profitLossTrend.style.color = color;
+            }
+            
+            // Coin count
             document.getElementById('portfolioCoinCount').textContent = summary.coin_count;
             
-            // Profit/Loss rengini ayarla
-            const profitElement = document.getElementById('portfolioProfitLoss');
-            const percentElement = document.getElementById('portfolioProfitPercent');
-            const profitClass = summary.total_profit_loss >= 0 ? 'positive' : 'negative';
-            profitElement.style.color = summary.total_profit_loss >= 0 ? '#00d4aa' : '#ef4444';
-            percentElement.style.color = summary.total_profit_loss >= 0 ? '#00d4aa' : '#ef4444';
+            // En iyi performans
+            if (portfolio.length > 0) {
+                const bestPerformer = portfolio.reduce((best, current) => 
+                    current.profit_loss_percent > best.profit_loss_percent ? current : best
+                );
+                
+                const bestPerformerValue = document.getElementById('bestPerformerValue');
+                const bestPerformerChange = document.getElementById('bestPerformerChange');
+                
+                if (bestPerformerValue && bestPerformerChange) {
+                    bestPerformerValue.textContent = bestPerformer.coin_kodu;
+                    bestPerformerChange.textContent = `+${bestPerformer.profit_loss_percent.toFixed(2)}%`;
+                    bestPerformerChange.style.color = bestPerformer.profit_loss_percent >= 0 ? '#10b981' : '#ef4444';
+                }
+            }
+        }
+        
+        // Portföy kartlarını göster
+        function displayPortfolioCards(portfolio, container) {
+            container.innerHTML = '';
             
-            // Tablo içeriğini oluştur
+            portfolio.forEach(item => {
+                const profitLossColor = item.profit_loss >= 0 ? '#10b981' : '#ef4444';
+                const trendClass = item.profit_loss >= 0 ? 'positive' : 'negative';
+                const trendIcon = item.profit_loss >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
+                const logoUrl = item.logo_url || `https://via.placeholder.com/40/4fc3f7/ffffff?text=${item.coin_kodu.charAt(0)}`;
+                
+                const card = document.createElement('div');
+                card.className = 'portfolio-asset-card';
+                card.innerHTML = `
+                    <div class="asset-card-header">
+                        <div class="asset-info">
+                            <img src="${logoUrl}" alt="${item.coin_adi}" class="asset-logo"
+                                 onerror="this.src='https://via.placeholder.com/40/4fc3f7/ffffff?text=${item.coin_kodu.charAt(0)}'">
+                            <div class="asset-details">
+                                <h4>${item.coin_adi}</h4>
+                                <p>${item.coin_kodu}</p>
+                            </div>
+                        </div>
+                        <div class="asset-trend ${trendClass}">
+                            <i class="fas ${trendIcon}"></i>
+                            ${item.profit_loss_percent >= 0 ? '+' : ''}${parseFloat(item.profit_loss_percent).toFixed(2)}%
+                        </div>
+                    </div>
+                    
+                    <div class="asset-metrics">
+                        <div class="metric">
+                            <div class="metric-label">Miktar</div>
+                            <div class="metric-value">${parseFloat(item.net_miktar).toFixed(6)}</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Değer</div>
+                            <div class="metric-value">₺${parseFloat(item.current_value).toLocaleString('tr-TR', {minimumFractionDigits: 2})}</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Ort. Fiyat</div>
+                            <div class="metric-value">₺${parseFloat(item.avg_buy_price).toLocaleString('tr-TR', {minimumFractionDigits: 2})}</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">K/Z</div>
+                            <div class="metric-value" style="color: ${profitLossColor};">
+                                ${item.profit_loss >= 0 ? '+' : ''}₺${parseFloat(item.profit_loss).toLocaleString('tr-TR', {minimumFractionDigits: 2})}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="asset-actions">
+                        <button class="asset-action-btn buy" onclick="openTradingModal('${item.coin_id}', '${item.coin_adi}', '${item.current_price}', 'buy', '${item.coin_kodu}')">
+                            <i class="fas fa-plus"></i> Al
+                        </button>
+                        <button class="asset-action-btn sell" onclick="openTradingModal('${item.coin_id}', '${item.coin_adi}', '${item.current_price}', 'sell', '${item.coin_kodu}')">
+                            <i class="fas fa-minus"></i> Sat
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+        
+        // Portföy tablosunu göster
+        function displayPortfolioTable(portfolio, tbody) {
             tbody.innerHTML = '';
             
-            data.portfolio.forEach(item => {
-                const profitLossClass = item.profit_loss >= 0 ? 'positive' : 'negative';
-                const profitLossColor = item.profit_loss >= 0 ? '#00d4aa' : '#ef4444';
+            portfolio.forEach(item => {
+                const profitLossColor = item.profit_loss >= 0 ? '#10b981' : '#ef4444';
                 const logoUrl = item.logo_url || `https://via.placeholder.com/32/4fc3f7/ffffff?text=${item.coin_kodu.charAt(0)}`;
                 
                 const row = document.createElement('tr');
@@ -7089,7 +7727,7 @@
                     <td>
                         <div style="display: flex; gap: 8px;">
                             <button onclick="openTradingModal('${item.coin_id}', '${item.coin_adi}', '${item.current_price}', 'buy', '${item.coin_kodu}')" 
-                                    style="background: #00d4aa; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;">
+                                    style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;">
                                 <i class="fas fa-plus"></i> Al
                             </button>
                             <button onclick="openTradingModal('${item.coin_id}', '${item.coin_adi}', '${item.current_price}', 'sell', '${item.coin_kodu}')" 
@@ -7102,11 +7740,6 @@
                 
                 tbody.appendChild(row);
             });
-            
-            // Başarı mesajı göster
-            if (typeof showNotification === 'function') {
-                showNotification(`Portföy yüklendi: ${summary.coin_count} farklı varlık`, 'success');
-            }
         }
          
          // API durum bilgisini göster
